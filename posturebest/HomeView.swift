@@ -13,7 +13,6 @@ struct HomeView: View {
         VStack {
             Text("Home Page")
                 .font(.largeTitle)
-                .foregroundColor(Color(hex: "#374663"))
                 .padding()
             Spacer()
         }
