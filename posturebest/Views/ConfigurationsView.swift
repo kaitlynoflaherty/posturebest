@@ -38,11 +38,6 @@ struct ConfigurationsView: View {
 //                    // PT stuff for good posture
 //                    // sync posture button
 //                    // timer and completion status
-//
-//                    TextField("Enter a number", text: $userInput)
-//                        .keyboardType(.numberPad)
-//                        .textFieldStyle(RoundedBorderTextFieldStyle())
-//                        .padding()
                 }
             } else {
                 Text("Feedback and Reminders")
