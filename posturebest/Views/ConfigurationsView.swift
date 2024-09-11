@@ -37,7 +37,6 @@ struct ConfigurationsView: View {
             .navigationTitle("Configurations")
             .background(Color.white.ignoresSafeArea())
         }
-        
     }
 }
 
