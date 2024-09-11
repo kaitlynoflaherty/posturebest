@@ -29,18 +29,21 @@ struct ConfigurationsView: View {
             .padding()
             
             if selectedOption == "Configure Device" {
-                // option for additional devices?
-                Text("Vest Configuration")
-                
-                // add instructions and context
-                // PT stuff for good posture
-                // sync posture button
-                // timer and completion status
-                            
-                TextField("Enter a number", text: $userInput)
-                    .keyboardType(.numberPad)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
+                VStack (alignment: .leading) {
+                    // option for additional devices?
+                    Text("Welcome to Vest Configuration!")
+                    
+//                    // add instructions and context
+//                    Text("In order to ").font(.subheadline).multilineTextAlignment(.trailing)
+//                    // PT stuff for good posture
+//                    // sync posture button
+//                    // timer and completion status
+//                                
+//                    TextField("Enter a number", text: $userInput)
+//                        .keyboardType(.numberPad)
+//                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                        .padding()
+                }
             } else {
                 Text("Feedback and Reminders")
                             
