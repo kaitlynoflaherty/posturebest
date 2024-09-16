@@ -66,9 +66,13 @@ struct ConfigureAlertsTab: View {
             Spacer()
 
             HStack {
-                Button("Cancel") {
+                Button(action: {
                     // action: reset to previous states
-                }.buttonStyle(.bordered)
+                }) {
+                    Text("Cancel")
+                }
+                .buttonStyle(.bordered)
+
                 Button("Save Changes") {
                     // action: save new states
                 }.buttonStyle(.borderedProminent)
