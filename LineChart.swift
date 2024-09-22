@@ -2,14 +2,8 @@ import SwiftUI
 import Charts
 
 struct LineChart: View {
-    // Sample data
-    let data: [ChartData] = [
-        ChartData(x: 1, y: 10),
-        ChartData(x: 2, y: 20),
-        ChartData(x: 3, y: 15),
-        ChartData(x: 4, y: 25),
-        ChartData(x: 5, y: 30)
-    ]
+   
+    let data: [ChartData]
     
     var body: some View {
         VStack {
@@ -28,8 +22,17 @@ struct LineChart: View {
 }
 
 struct LineChart_Previews: PreviewProvider {
+
     static var previews: some View {
-        LineChart()
+        // Sample data for preview
+            let sampleData: [ChartData] = [
+                ChartData(x: 1, y: 10),
+                ChartData(x: 2, y: 20),
+                ChartData(x: 3, y: 15),
+                ChartData(x: 4, y: 25),
+                ChartData(x: 5, y: 30)
+            ]
+        LineChart(data: sampleData)
     }
 }
 

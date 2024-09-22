@@ -9,18 +9,25 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View {
-    // Create a date formatter
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
-        formatter.timeStyle = .none // option to add time
+        formatter.timeStyle = .none
         return formatter
     }
     
-    // Get the current date
     private var currentDate: String {
         dateFormatter.string(from: Date())
     }
+    
+    // Sample data for chart
+    let chartData: [ChartData] = [
+        ChartData(x: 1, y: 10),
+        ChartData(x: 2, y: 20),
+        ChartData(x: 3, y: 15),
+        ChartData(x: 4, y: 25),
+        ChartData(x: 5, y: 30)
+    ]
     
     var body: some View {
         ScrollView {
@@ -32,10 +39,8 @@ struct HomeView: View {
                 
                 Text(currentDate)
                     .font(.title2)
-                // Shaded box section for image and info button
                 VStack {
                     ZStack {
-                        // Background box
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.gray.opacity(0.1))
                             .frame(width: 350, height: 300)
@@ -43,9 +48,9 @@ struct HomeView: View {
                             .padding()
                         VStack {
                             Image("TorsoOutline")
-                                .resizable() // Allows you to resize the image
-                                .aspectRatio(contentMode: .fit) // Adjust content mode as needed (fit, fill, etc.)
-                                .frame(width: 250, height: 250) // Adjust size as needed
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 250, height: 250)
                             HStack {
                                 Spacer()
                                 VStack {
@@ -56,13 +61,12 @@ struct HomeView: View {
                     }
                 }
                 
-                // Progress tracker (line graph)
                 VStack {
                     Text("Progress Tracker")
                         .font(.headline)
                         .padding()
                     
-                    LineChart()
+                    LineChart(data: chartData)
                     
                     
                     Spacer()
