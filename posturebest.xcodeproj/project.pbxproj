@@ -19,6 +19,8 @@
 		91457B562C76B857006159B6 /* posturebestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91457B552C76B857006159B6 /* posturebestTests.swift */; };
 		91457B602C76B857006159B6 /* posturebestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91457B5F2C76B857006159B6 /* posturebestUITests.swift */; };
 		91457B622C76B857006159B6 /* posturebestUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91457B612C76B857006159B6 /* posturebestUITestsLaunchTests.swift */; };
+		91480EAE2C988EFB0099A942 /* ConfigureDeviceTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91480EAD2C988EFB0099A942 /* ConfigureDeviceTab.swift */; };
+		91480EB02C988F260099A942 /* ConfigureAlertsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91480EAF2C988F260099A942 /* ConfigureAlertsTab.swift */; };
 		9161B4292C91FFA500B24C20 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9161B4282C91FFA500B24C20 /* ColorExtensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +57,8 @@
 		91457B5B2C76B857006159B6 /* posturebestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = posturebestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		91457B5F2C76B857006159B6 /* posturebestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = posturebestUITests.swift; sourceTree = "<group>"; };
 		91457B612C76B857006159B6 /* posturebestUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = posturebestUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		91480EAD2C988EFB0099A942 /* ConfigureDeviceTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureDeviceTab.swift; sourceTree = "<group>"; };
+		91480EAF2C988F260099A942 /* ConfigureAlertsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureAlertsTab.swift; sourceTree = "<group>"; };
 		9161B4282C91FFA500B24C20 /* ColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,6 +151,8 @@
 		9161B42A2C920D1F00B24C20 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				91480EAD2C988EFB0099A942 /* ConfigureDeviceTab.swift */,
+				91480EAF2C988F260099A942 /* ConfigureAlertsTab.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -304,9 +310,11 @@
 				91457B492C76B856006159B6 /* Persistence.swift in Sources */,
 				9104514B2C88AE4F00C96CFE /* HomeView.swift in Sources */,
 				91457B422C76B852006159B6 /* ContentView.swift in Sources */,
+				91480EB02C988F260099A942 /* ConfigureAlertsTab.swift in Sources */,
 				91457B402C76B852006159B6 /* posturebestApp.swift in Sources */,
 				9104514D2C88AE6600C96CFE /* ConfigurationsView.swift in Sources */,
 				9161B4292C91FFA500B24C20 /* ColorExtensions.swift in Sources */,
+				91480EAE2C988EFB0099A942 /* ConfigureDeviceTab.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
