@@ -1,3 +1,10 @@
+//
+//  ConfigurationsView.swift
+//  posturebest
+//
+//  Created by Kaitlyn O’Flaherty on 9/4/24.
+//
+
 import SwiftUI
 
 struct ConfigurationsView: View {
