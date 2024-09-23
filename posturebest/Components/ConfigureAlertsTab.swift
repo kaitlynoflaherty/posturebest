@@ -13,6 +13,8 @@ struct ConfigureAlertsTab: View {
     @State private var standingFreqState: String = "15"
     @State private var postureFreqState: String = "5"
     let postureOpts = ["5", "10", "15", "20", "25", "30"]
+    let postureInfo = "This configuration will set how often the vest will alert you that your posture is not optimal."
+    let standingInfo = "This configuration will set how often the vest will alert you to stand up to improve movement throughout the day."
         
     // Stnading reminders in hours and minutes
     let hours = Array(0...5).map { String($0) }
@@ -35,7 +37,9 @@ struct ConfigureAlertsTab: View {
                     .font(.headline)
                     .foregroundStyle(Color(hex: "#374663"))
                     .padding(.top, 20)
-                // add i hover
+
+                InfoButtonView(message: standingInfo, buttonSize: 15, title: "Standing Reminders").offset(x: -30, y: 20)
+                
                 
                 Picker("Select Time", selection: $selectedTime) {
                     ForEach(timeOptions, id: \.self) { time in
@@ -48,18 +52,19 @@ struct ConfigureAlertsTab: View {
                 
             }.padding(.top, 0)
             HStack {
-                Text("Posture Reminder Frequency (mins)")
+                Text("Posture Reminder \nFrequency (mins)")
                     .font(.headline)
                     .foregroundStyle(Color(hex: "#374663"))
                     .padding(.top, 20)
-                // add i hover
+               
+                InfoButtonView(message: postureInfo, buttonSize: 15, title: "Posture Reminders").offset(x: -27, y: 20)
                 
                 Picker("Select Frequency", selection: $postureFreqState) {
                     ForEach(postureOpts, id: \.self) { option in
                         Text(option).tag(option)
                     }
                 }
-                .pickerStyle(WheelPickerStyle()).frame(height: 100).frame(width: 100)
+                .pickerStyle(WheelPickerStyle()).frame(height: 100).frame(width: 100).offset(x: 5)
                 
             }.padding(.top, 0)
             

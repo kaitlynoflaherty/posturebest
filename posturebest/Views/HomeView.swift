@@ -54,7 +54,7 @@ struct HomeView: View {
                             HStack {
                                 Spacer()
                                 VStack {
-                                    InfoButtonView(message: "This is a three-dimensional model of your torso, displaying areas of concern in your posture (red sensors).")
+                                    InfoButtonView(message: "This is a three-dimensional model of your torso, displaying areas of concern in your posture (red sensors).", buttonSize: 30, title: "Description")
                                 }
                             }
                         }
