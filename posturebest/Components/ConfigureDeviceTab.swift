@@ -9,21 +9,28 @@ import Foundation
 import SwiftUI
 
 struct ConfigureDeviceTab: View {
+    let vestConfigInfo = "Follow the steps to sync the Posture Vest to you app."
+    let instructions = "1. Ensure your device is on and connected to the PostureBest app via bluetooth. \n2. Stand with your feet hip-width apart and toes pointing forward. \n3. Straighten back, neck and align shoulders to desired position. \n4. Hold position and press the configure button."
+    let note = "Note: Please hold position for about 5 seconds while the device is being configured."
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text("Welcome to Vest Configuration!")
+            HStack {
+                Text("Welcome to Vest Configuration!")
                 .font(.headline)
                 .foregroundStyle(Color(hex: "#374663"))
                 .padding(.bottom, 10)
-            // add i hover next to vest config
+                
+                InfoButtonView(message: vestConfigInfo, buttonSize: 15, title: "Vest Configuration").offset(x: -20, y: -5)
+            }
             
-            Text("1. Ensure your device is on and connected to the      PostureBest app via bluetooth. \n2. Stand with your feet hip-width apart and toes pointing forward. \n3. Straighten back, neck and align shoulders to desired position. \n4. Hold position and press the configure button.")
+            Text(instructions)
                 .font(.subheadline)
                 .multilineTextAlignment(.leading)
                 .foregroundStyle(Color(hex: "#374663"))
                 .padding(.bottom, 50)
             
-            Text("Note: Please hold position for about 5 seconds while the device is being configured.")
+            Text(note)
                 .font(.subheadline)
                 .multilineTextAlignment(.leading)
                 .foregroundStyle(Color(hex: "#374663"))
