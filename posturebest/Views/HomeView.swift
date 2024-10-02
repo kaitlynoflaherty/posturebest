@@ -39,11 +39,10 @@ struct HomeView: View {
                 
                 Text(currentDate)
                     .font(.title2)
-                VStack {
-                    ZStack {
+                ZStack {
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.gray.opacity(0.1))
-                            .frame(width: 350, height: 300)
+                            .frame(width: 350, height: 400)
                             .shadow(radius: 5)
                             .padding()
                         VStack {
@@ -52,14 +51,12 @@ struct HomeView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 250, height: 250)
                             HStack {
-                                Spacer()
                                 VStack {
-                                    InfoButtonView(message: "This is a three-dimensional model of your torso, displaying areas of concern in your posture (red sensors).")
+                                    InfoButtonView(message: "This is a three-dimensional model of your torso, displaying areas of concern in your posture (red sensors).").offset(x: 135, y: 30)
                                 }
                             }
                         }
                     }
-                }
                 
                 VStack {
                     Text("Progress Tracker")
@@ -68,8 +65,8 @@ struct HomeView: View {
                     
                     LineChart(data: chartData)
                     
+                    Spacer(minLength: 20)
                     
-                    Spacer()
                 }
                 .navigationTitle("Home")
                 .background(Color.white.ignoresSafeArea())
