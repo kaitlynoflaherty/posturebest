@@ -52,7 +52,8 @@ struct HomeView: View {
                                 .frame(width: 250, height: 250)
                             HStack {
                                 VStack {
-                                    InfoButtonView(message: "This is a three-dimensional model of your torso, displaying areas of concern in your posture (red sensors).").offset(x: 135, y: 30)
+                                    InfoButtonView(message: "This is a three-dimensional model of your torso, displaying areas of concern in your posture (red sensors).", buttonSize: 30, title: "Description").offset(x: 135, y: 30)
+
                                 }
                             }
                         }
