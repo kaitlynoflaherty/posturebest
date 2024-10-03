@@ -15,13 +15,16 @@ struct BluetoothDevicesView: View {
         VStack (spacing: 10) {
             Text("Bluetooth Devices")
                 .font(.largeTitle)
+                .foregroundStyle(Color(hex: "#374663"))
                 .frame(maxWidth: .infinity, alignment: .center)
 
             List(bleManager.periperals) { peripheral in
                 HStack {
                     Text(peripheral.name)
+                        .foregroundStyle(Color(hex: "#374663"))
                     Spacer()
                     Text(String(peripheral.rssi))
+                        .foregroundStyle(Color(hex: "#374663"))
                     Button(action: {
                         bleManager.connect(to: peripheral)
                     }) {
@@ -37,7 +40,9 @@ struct BluetoothDevicesView: View {
             
             Spacer()
             
-            Text("STATUS").font(.headline)
+            Text("STATUS")
+                .font(.headline)
+                .foregroundStyle(Color(hex: "#374663"))
             
             if bleManager.isSwitchedOn {
                 Text("Bluetooth is switched on").foregroundColor(.green)
@@ -69,5 +74,11 @@ struct BluetoothDevicesView: View {
                 bleManager.startScanning()
             }
         }
+    }
+}
+
+struct BluetoothDevicesView_Previews: PreviewProvider {
+    static var previews: some View {
+        BluetoothDevicesView()
     }
 }

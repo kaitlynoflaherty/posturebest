@@ -13,6 +13,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     @Published var isSwitchedOn = false
     @Published var periperals = [Peripheral]() // stores discovered periphs
     @Published var connectedPeripheralUUID: UUID?
+    var cbPeripheral: CBPeripheral?
     
     override init() {
         super.init()
@@ -53,17 +54,19 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     }
     
     func connect(to peripheral: Peripheral) {
-        guard let cbPeripheral = myCentral.retrievePeripherals(withIdentifiers: [peripheral.id]).first
+        guard let cbPeripheralTemp = myCentral.retrievePeripherals(withIdentifiers: [peripheral.id]).first
             else {
             print("Peripheral not found for connection")
             return
             }
         
         // setting the UUID
-        connectedPeripheralUUID = cbPeripheral.identifier
-        
-        cbPeripheral.delegate = self
-        myCentral.connect(cbPeripheral, options: nil)
+        connectedPeripheralUUID = cbPeripheralTemp.identifier
+        cbPeripheralTemp.delegate = self
+
+        cbPeripheral = cbPeripheralTemp
+
+        myCentral.connect(cbPeripheral!, options: nil)
     }
     
     // Delegate method for when peripheral is connected
