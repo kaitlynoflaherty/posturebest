@@ -9,8 +9,24 @@ import Foundation
 import SwiftUI
 import CoreBluetooth
 
+func rssiColor(for rssi: Int?) -> Color {
+    guard let rssiValue = rssi else { return .gray }
+
+    switch rssiValue {
+    case let x where x >= -70:
+        return .green // Good signal
+    case let x where x >= -80:
+        return .yellow // Medium signal
+    case let x where x < -80:
+        return .red // Bad signal
+    default:
+        return .gray // Fallback
+    }
+}
+
 struct BluetoothDevicesView: View {
     @StateObject var bleManager = BLEManager()
+
     var body: some View {
         VStack (spacing: 10) {
             Text("Bluetooth Devices")
@@ -20,11 +36,18 @@ struct BluetoothDevicesView: View {
 
             List(bleManager.periperals) { peripheral in
                 HStack {
-                    Text(peripheral.name)
-                        .foregroundStyle(Color(hex: "#374663"))
+                    if peripheral.name != "Unknown" {
+                        Text(peripheral.name)
+                            .foregroundStyle(Color(hex: "#374663"))
+                    }
                     Spacer()
-                    Text(String(peripheral.rssi))
-                        .foregroundStyle(Color(hex: "#374663"))
+                    
+                    // rssi strength indicator
+                    Circle()
+                        .fill(rssiColor(for: peripheral.rssi))
+                        .frame(width: 50, height: 50)
+                    
+                    
                     Button(action: {
                         bleManager.connect(to: peripheral)
                     }) {

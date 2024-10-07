@@ -5,6 +5,10 @@
 //  Created by Kaitlyn O’Flaherty on 8/21/24.
 //
 
+// filter out unknown names
+// disconnect option
+// add rssi strngth
+
 import SwiftUI
 import CoreData
 
