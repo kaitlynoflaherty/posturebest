@@ -97,7 +97,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         if let services = peripheral.services {
             for service in services {
-                print("Discovered service: \(service.uuid)")
+                print("Discovered service: \(service)")
                 peripheral.discoverCharacteristics(nil, for: service) // Discover characteristics for service
             }
         }
@@ -107,7 +107,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let characteristics = service.characteristics {
             for characteristic in characteristics {
-                print("Discovered characteristic: \(characteristic.uuid)")
+                print("Discovered characteristic: \(characteristic)")
                 
                 // add interaction with characteristics
             }
