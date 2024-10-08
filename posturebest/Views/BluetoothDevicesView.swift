@@ -35,31 +35,32 @@ struct BluetoothDevicesView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
 
             List(bleManager.periperals) { peripheral in
-                HStack {
-                    if peripheral.name != "Unknown" {
+                if peripheral.name != "Unknown" {
+                    HStack {
                         Text(peripheral.name)
                             .foregroundStyle(Color(hex: "#374663"))
-                    }
-                    Spacer()
-                    
-                    // rssi strength indicator
-                    Circle()
-                        .fill(rssiColor(for: peripheral.rssi))
-                        .frame(width: 50, height: 50)
-                    
-                    
-                    Button(action: {
-                        bleManager.connect(to: peripheral)
-                    }) {
-                        if bleManager.connectedPeripheralUUID == peripheral.id {
-                            Text("Connected")
-                                .foregroundColor(.green)
-                        } else {
-                            Text("Connect")
+                        Spacer()
+                        
+                        // rssi strength indicator
+                        Circle()
+                            .fill(rssiColor(for: peripheral.rssi))
+                            .frame(width: 5, height: 5)
+                        
+                        
+                        Button(action: {
+                            bleManager.connect(to: peripheral)
+                        }) {
+                            if bleManager.connectedPeripheralUUID == peripheral.id {
+                                Text("Connected")
+                                    .foregroundColor(.green)
+                            } else {
+                                Text("Connect")
+                            }
                         }
                     }
                 }
             }.frame(height: UIScreen.main.bounds.height / 2)
+            
             
             Spacer()
             
