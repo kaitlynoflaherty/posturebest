@@ -122,9 +122,7 @@
 			children = (
 				91457B3F2C76B852006159B6 /* posturebestApp.swift */,
 				91457B412C76B852006159B6 /* ContentView.swift */,
-				9161B42A2C920D1F00B24C20 /* Components */,
 				9161B42B2C920D4F00B24C20 /* Views */,
-				9161B42C2C920D8100B24C20 /* Utils */,
 				91457B432C76B856006159B6 /* Assets.xcassets */,
 				91457B482C76B856006159B6 /* Persistence.swift */,
 				91457B4A2C76B856006159B6 /* posturebest.xcdatamodeld */,
@@ -160,34 +158,17 @@
 			path = posturebestUITests;
 			sourceTree = "<group>";
 		};
-		9161B42A2C920D1F00B24C20 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				0D243C122C95E3FD00F7D657 /* InfoHover.swift */,
-				0D243C162C95EA3200F7D657 /* LineChart.swift */,
-				91480EAD2C988EFB0099A942 /* ConfigureDeviceTab.swift */,
-				91480EAF2C988F260099A942 /* ConfigureAlertsTab.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		9161B42B2C920D4F00B24C20 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				9104514E2C88AE7500C96CFE /* UserProfileView.swift */,
 				9104514C2C88AE6600C96CFE /* ConfigurationsView.swift */,
+				91480EAD2C988EFB0099A942 /* ConfigureDeviceTab.swift */,
+				91480EAF2C988F260099A942 /* ConfigureAlertsTab.swift */,
 				9104514A2C88AE4F00C96CFE /* HomeView.swift */,
 				91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		9161B42C2C920D8100B24C20 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				9161B4282C91FFA500B24C20 /* ColorExtensions.swift */,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 		91B9F8A02CADD6730077A28C /* Models */ = {
@@ -201,6 +182,9 @@
 		91B9F8A12CADD67D0077A28C /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				9161B4282C91FFA500B24C20 /* ColorExtensions.swift */,
+				0D243C122C95E3FD00F7D657 /* InfoHover.swift */,
+				0D243C162C95EA3200F7D657 /* LineChart.swift */,
 				91B9F89E2CADD5E10077A28C /* BLEManager.swift */,
 			);
 			path = ViewModel;
