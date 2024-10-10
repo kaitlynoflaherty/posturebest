@@ -3,7 +3,6 @@
 //  posturebest
 //
 //  Created by Kaitlyn O’Flaherty on 8/21/24.
-//
 
 import SwiftUI
 import CoreData
@@ -19,6 +18,11 @@ struct ContentView: View {
             ConfigurationsView(deviceName: "placeholder")
                 .tabItem {
                     Label("Configurations", systemImage: "gear")
+                }
+            
+            BluetoothDevicesView()
+                .tabItem {
+                    Label("Bluetooth", systemImage: "wifi")
                 }
 
             UserProfileView()
