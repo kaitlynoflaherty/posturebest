@@ -44,7 +44,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     
     func startScanning() {
         print("Scanning for devices...")
-        // Right now not scanning for specific services... can be edited later
+        // Not scanning for specific services
         myCentral.scanForPeripherals(withServices: nil, options: nil)
     }
     
@@ -73,7 +73,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("Successfully connected to \(peripheral.name ?? "Unknown")")
         
-        // discover services on the connected peripheral, update later?
+        // discover services on the connected peripheral
         peripheral.discoverServices(nil)
     }
     
