@@ -26,6 +26,7 @@ func rssiColor(for rssi: Int?) -> Color {
 
 struct BluetoothDevicesView: View {
     @StateObject var bleManager = BLEManager()
+    @Binding var showHeader: Bool
 
     var body: some View {
         VStack (spacing: 10) {
@@ -33,6 +34,12 @@ struct BluetoothDevicesView: View {
                 .font(.largeTitle)
                 .foregroundStyle(Color(hex: "#374663"))
                 .frame(maxWidth: .infinity, alignment: .center)
+                .onAppear {
+                                showHeader = false
+                            }
+                            .onDisappear {
+                                showHeader = true
+                            }
 
             List(bleManager.periperals) { peripheral in
                 if peripheral.name != "Unknown" {
@@ -102,7 +109,8 @@ struct BluetoothDevicesView: View {
 }
 
 struct BluetoothDevicesView_Previews: PreviewProvider {
+    @State static var showHeader = false
     static var previews: some View {
-        BluetoothDevicesView()
+        BluetoothDevicesView(showHeader: $showHeader)
     }
 }
