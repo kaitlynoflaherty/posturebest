@@ -20,10 +20,10 @@ struct ContentView: View {
                     Label("Configurations", systemImage: "gear")
                 }
             
-            BluetoothDevicesView()
-                .tabItem {
-                    Label("Bluetooth", systemImage: "wifi")
-                }
+//            BluetoothDevicesView()
+//                .tabItem {
+//                    Label("Bluetooth", systemImage: "wifi")
+//                }
 
             UserProfileView()
                 .tabItem {
