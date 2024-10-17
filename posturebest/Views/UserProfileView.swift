@@ -36,7 +36,7 @@ struct UserProfileView: View {
             NavigationView {
                 List {
 //                    Section(header: Text("My Device")) {
-//                        NavigationLink(destination: BluetoothDevicesView(showHeader: $showHeader)) {
+//                        NavigationLink(destination: MyDeviceView(showHeader: $showHeader)) {
 //                            Text("deviceName || disconnected")
 //                        }
 //                    }
@@ -45,11 +45,11 @@ struct UserProfileView: View {
                         NavigationLink(destination: BluetoothDevicesView(showHeader: $showHeader)) {
                             Text("Connect to Bluetooth Device")
                         }
-//                        NavigationLink(destination: BluetoothDevicesView(showHeader: $showHeader)) {
+//                        NavigationLink(destination: AccountInformationView(showHeader: $showHeader)) {
 //                            Text("Account Information")
 //                        }
-//                        NavigationLink(destination: BluetoothDevicesView(showHeader: $showHeader)) {
-//                            Text("User Settings")
+//                        NavigationLink(destination: AppSettings(showHeader: $showHeader)) {
+//                            Text("App Settings")
 //                        }
                     }
                     

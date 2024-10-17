@@ -19,11 +19,6 @@ struct ContentView: View {
                 .tabItem {
                     Label("Configurations", systemImage: "gear")
                 }
-            
-//            BluetoothDevicesView()
-//                .tabItem {
-//                    Label("Bluetooth", systemImage: "wifi")
-//                }
 
             UserProfileView()
                 .tabItem {
