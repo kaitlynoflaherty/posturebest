@@ -107,6 +107,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let characteristics = service.characteristics {
             for characteristic in characteristics {
+                peripheral.readValue(for: characteristic)
                 print("Discovered characteristic: \(characteristic)")
                 
                 // add interaction with characteristics
