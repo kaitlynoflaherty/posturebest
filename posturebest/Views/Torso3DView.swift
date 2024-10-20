@@ -11,7 +11,7 @@ import SceneKit
 struct Model3DView: UIViewRepresentable {
     func makeUIView(context: Context) -> SCNView {
         let sceneView = SCNView()
-        sceneView.allowsCameraControl = true
+        sceneView.allowsCameraControl = false
         sceneView.showsStatistics = true
         sceneView.backgroundColor = UIColor.white
         
@@ -33,7 +33,7 @@ struct Model3DView: UIViewRepresentable {
     }
     
     private func loadModel(into scene: SCNScene) {
-        guard let modelScene = SCNScene(named: "AssetName/human_man") else {
+        guard let modelScene = SCNScene(named: "human_woman.dae") else {
             print("Failed to load the model.")
             return
         }
@@ -42,7 +42,11 @@ struct Model3DView: UIViewRepresentable {
         let modelNode = modelScene.rootNode
             modelNode.scale = SCNVector3(0.1, 0.1, 0.1) // Adjust scale as needed
             scene.rootNode.addChildNode(modelNode)
+        
+        // Adjust the camera position to fit the model
+            fitCamera(to: modelNode, in: scene)
             print("Model loaded successfully!")
+        
     }
     
     private func addLights(to scene: SCNScene) {
