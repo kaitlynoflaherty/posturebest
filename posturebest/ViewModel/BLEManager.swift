@@ -113,12 +113,11 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
                     }
                     print("Discovered characteristic: \(characteristic)")
                 }
-                
-                // add interaction with characteristics
             }
         }
     }
     
+    // Delegate method to update the value field for a characteristic
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
             print("Error reading characteristic: \(error.localizedDescription)")
@@ -126,16 +125,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         }
 
         if let value = characteristic.value {
-            // Print the raw data
-
-            // Convert Data to bytes
             let bytes = [UInt8](value)
-
-            // Print each byte
             print("Characteristic Value: \(bytes)")
-            for byte in bytes {
-                print(byte)
-            }
         } else {
             print("Characteristic value is nil.")
         }
