@@ -174,8 +174,6 @@
 				91480EAF2C988F260099A942 /* ConfigureAlertsTab.swift */,
 				9104514A2C88AE4F00C96CFE /* HomeView.swift */,
 				91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */,
-				0D8810FD2CC57A5200FA9CB8 /* human_man.dae */,
-				0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -183,7 +181,9 @@
 		91B9F8A02CADD6730077A28C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0D8810FD2CC57A5200FA9CB8 /* human_man.dae */,
 				91B9F8A22CADD6A90077A28C /* Peripheral.swift */,
+				0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */,
 			);
 			path = Models;
 			sourceTree = "<group>";

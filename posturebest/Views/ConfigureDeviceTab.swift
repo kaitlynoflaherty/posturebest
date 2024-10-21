@@ -21,7 +21,7 @@ struct ConfigureDeviceTab: View {
                 .foregroundStyle(Color(hex: "#374663"))
                 .padding(.bottom, 10)
                 
-                InfoButtonView(message: vestConfigInfo, buttonSize: 15, title: "Vest Configuration").offset(x: -20, y: -5)
+                InfoButtonView(message: vestConfigInfo, buttonSize: 15, title: "Vest Configuration", color: Color(.blue)).offset(x: -20, y: -5)
             }
             
             Text(instructions)

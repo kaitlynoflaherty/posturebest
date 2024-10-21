@@ -41,17 +41,16 @@ struct HomeView: View {
                     .font(.title2)
                 ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.gray.opacity(0.1))
+                        .fill(Color(hex: "#374663"))
                             .frame(width: 350, height: 400)
                             .shadow(radius: 5)
                             .padding()
                         VStack {
-                            Model3DView() // Use the 3D model view instead of the image
-                            .frame(width: 250, height: 250) // Set the frame as needed
+                            Model3DView()
+                            .frame(width: 250, height: 250)
                             HStack {
                                 VStack {
-                                    InfoButtonView(message: "This is a three-dimensional model of your torso, displaying areas of concern in your posture (red sensors).", buttonSize: 30, title: "Description").offset(x: 135, y: 30)
-
+                                    InfoButtonView(message: "This is a three-dimensional model of your torso, displaying areas of concern in your posture (red sensors).", buttonSize: 30, title: "Description", color: Color(.gray)).offset(x: 135, y: 30)
                                 }
                             }
                         }

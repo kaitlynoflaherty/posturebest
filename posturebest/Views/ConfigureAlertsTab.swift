@@ -38,7 +38,7 @@ struct ConfigureAlertsTab: View {
                     .foregroundStyle(Color(hex: "#374663"))
                     .padding(.top, 20)
 
-                InfoButtonView(message: standingInfo, buttonSize: 15, title: "Standing Reminders").offset(x: -30, y: 20)
+                InfoButtonView(message: standingInfo, buttonSize: 15, title: "Standing Reminders", color: Color(.blue)).offset(x: -30, y: 20)
                 
                 
                 Picker("Select Time", selection: $selectedTime) {
@@ -57,7 +57,7 @@ struct ConfigureAlertsTab: View {
                     .foregroundStyle(Color(hex: "#374663"))
                     .padding(.top, 20)
                
-                InfoButtonView(message: postureInfo, buttonSize: 15, title: "Posture Reminders").offset(x: -27, y: 20)
+                InfoButtonView(message: postureInfo, buttonSize: 15, title: "Posture Reminders", color: Color(.blue)).offset(x: -27, y: 20)
                 
                 Picker("Select Frequency", selection: $postureFreqState) {
                     ForEach(postureOpts, id: \.self) { option in
