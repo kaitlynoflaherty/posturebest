@@ -50,7 +50,6 @@ struct Model3DView: UIViewRepresentable {
     }
     
     private func addLights(to scene: SCNScene) {
-        // Ambient light
         let ambientLight = SCNLight()
         ambientLight.type = .ambient
         ambientLight.color = UIColor.white
