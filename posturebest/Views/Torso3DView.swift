@@ -15,7 +15,6 @@ struct Model3DView: UIViewRepresentable {
         sceneView.showsStatistics = true
         sceneView.backgroundColor = UIColor.white
         
-        // Create and set up the scene
         let scene = SCNScene()
         sceneView.scene = scene
         
