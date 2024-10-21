@@ -28,7 +28,6 @@ struct Model3DView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: SCNView, context: Context) {
-        // Update the view if needed
     }
     
     private func loadModel(into scene: SCNScene) {
