@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0D243C132C95E3FD00F7D657 /* InfoHover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D243C122C95E3FD00F7D657 /* InfoHover.swift */; };
 		0D243C172C95EA3200F7D657 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D243C162C95EA3200F7D657 /* LineChart.swift */; };
+		0D8810FE2CC57A5200FA9CB8 /* human_man.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D8810FD2CC57A5200FA9CB8 /* human_man.dae */; };
+		0D8811002CC57AD500FA9CB8 /* human_woman.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */; };
+		0DB7F8072CC0AF76003FAD7C /* Torso3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB7F8062CC0AF69003FAD7C /* Torso3DView.swift */; };
 		9104514B2C88AE4F00C96CFE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104514A2C88AE4F00C96CFE /* HomeView.swift */; };
 		9104514D2C88AE6600C96CFE /* ConfigurationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104514C2C88AE6600C96CFE /* ConfigurationsView.swift */; };
 		9104514F2C88AE7500C96CFE /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9104514E2C88AE7500C96CFE /* UserProfileView.swift */; };
@@ -49,6 +52,9 @@
 /* Begin PBXFileReference section */
 		0D243C122C95E3FD00F7D657 /* InfoHover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHover.swift; sourceTree = SOURCE_ROOT; };
 		0D243C162C95EA3200F7D657 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = SOURCE_ROOT; };
+		0D8810FD2CC57A5200FA9CB8 /* human_man.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = human_man.dae; sourceTree = "<group>"; };
+		0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = human_woman.dae; sourceTree = "<group>"; };
+		0DB7F8062CC0AF69003FAD7C /* Torso3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Torso3DView.swift; sourceTree = "<group>"; };
 		9104514A2C88AE4F00C96CFE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		9104514C2C88AE6600C96CFE /* ConfigurationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationsView.swift; sourceTree = "<group>"; };
 		9104514E2C88AE7500C96CFE /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
@@ -161,6 +167,7 @@
 		9161B42B2C920D4F00B24C20 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0DB7F8062CC0AF69003FAD7C /* Torso3DView.swift */,
 				9104514E2C88AE7500C96CFE /* UserProfileView.swift */,
 				9104514C2C88AE6600C96CFE /* ConfigurationsView.swift */,
 				91480EAD2C988EFB0099A942 /* ConfigureDeviceTab.swift */,
@@ -174,7 +181,9 @@
 		91B9F8A02CADD6730077A28C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0D8810FD2CC57A5200FA9CB8 /* human_man.dae */,
 				91B9F8A22CADD6A90077A28C /* Peripheral.swift */,
+				0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -295,6 +304,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				91457B472C76B856006159B6 /* Preview Assets.xcassets in Resources */,
+				0D8811002CC57AD500FA9CB8 /* human_woman.dae in Resources */,
+				0D8810FE2CC57A5200FA9CB8 /* human_man.dae in Resources */,
 				91457B442C76B856006159B6 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,6 +336,7 @@
 				91457B4C2C76B856006159B6 /* posturebest.xcdatamodeld in Sources */,
 				91457B492C76B856006159B6 /* Persistence.swift in Sources */,
 				9104514B2C88AE4F00C96CFE /* HomeView.swift in Sources */,
+				0DB7F8072CC0AF76003FAD7C /* Torso3DView.swift in Sources */,
 				0D243C172C95EA3200F7D657 /* LineChart.swift in Sources */,
 				91B9F89F2CADD5E10077A28C /* BLEManager.swift in Sources */,
 				0D243C132C95E3FD00F7D657 /* InfoHover.swift in Sources */,
@@ -498,7 +510,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"posturebest/Preview Content\"";
-				DEVELOPMENT_TEAM = P39M67XVHS;
+				DEVELOPMENT_TEAM = RC2882DXXQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
@@ -529,7 +541,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"posturebest/Preview Content\"";
-				DEVELOPMENT_TEAM = P39M67XVHS;
+				DEVELOPMENT_TEAM = RC2882DXXQ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";

@@ -11,6 +11,7 @@ struct InfoButtonView: View {
     let message: String
     let buttonSize: CGFloat
     let title: String
+    let color: Color
     @State private var showingAlert = false
 
     var body: some View {
@@ -19,7 +20,7 @@ struct InfoButtonView: View {
         }) {
             Image(systemName: "info.circle")
                 .font(.system(size: buttonSize))
-                .foregroundColor(.blue)
+                .foregroundColor(color)
                 .padding()
         }
         .alert(isPresented: $showingAlert) {
