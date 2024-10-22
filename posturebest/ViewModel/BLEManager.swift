@@ -55,17 +55,17 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     
     func connect(to peripheral: Peripheral) {
         guard let cbPeripheralTemp = myCentral.retrievePeripherals(withIdentifiers: [peripheral.id]).first
-            else {
+        else {
             print("Peripheral not found for connection")
             return
-            }
+        }
         
         // setting the UUID
         connectedPeripheralUUID = cbPeripheralTemp.identifier
         cbPeripheralTemp.delegate = self
-
+        
         cbPeripheral = cbPeripheralTemp
-
+        
         myCentral.connect(cbPeripheral!, options: nil)
     }
     
@@ -107,10 +107,28 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let characteristics = service.characteristics {
             for characteristic in characteristics {
-                print("Discovered characteristic: \(characteristic)")
-                
-                // add interaction with characteristics
+                if characteristic.properties.contains(.read) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        peripheral.readValue(for: characteristic)
+                    }
+                    print("Discovered characteristic: \(characteristic)")
+                }
             }
+        }
+    }
+    
+    // Delegate method to update the value field for a characteristic
+    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+        if let error = error {
+            print("Error reading characteristic: \(error.localizedDescription)")
+            return
+        }
+        
+        if let value = characteristic.value {
+            let bytes = [UInt8](value)
+            print("Characteristic Value: \(bytes)")
+        } else {
+            print("Characteristic value is nil.")
         }
     }
 }
