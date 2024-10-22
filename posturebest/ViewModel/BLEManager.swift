@@ -94,31 +94,23 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     }
     
     // Delegate method for when services are discovered on a peripheral
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        if let services = peripheral.services {
+            for service in services {
+                print("Discovered service: \(service)")
+                peripheral.discoverCharacteristics(nil, for: service) // Discover characteristics for service
+            }
+        }
+    }
+    
+    // Delegate method for when characteristics discovered on service
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-            if let characteristics = service.characteristics {
-                for characteristic in characteristics {
-                    if characteristic.properties.contains(.read) {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            peripheral.readValue(for: characteristic)
-                        }
-                        print("Discovered characteristic: \(characteristic)")
-                    }
-                }
+        if let characteristics = service.characteristics {
+            for characteristic in characteristics {
+                print("Discovered characteristic: \(characteristic)")
+                
+                // add interaction with characteristics
             }
         }
-
-        // Delegate method to update the value field for a characteristic
-        func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-            if let error = error {
-                print("Error reading characteristic: \(error.localizedDescription)")
-                return
-            }
-
-            if let value = characteristic.value {
-                let bytes = [UInt8](value)
-                print("Characteristic Value: \(bytes)")
-            } else {
-                print("Characteristic value is nil.")
-            }
-        }
+    }
 }
