@@ -30,6 +30,7 @@
 		91B9F89F2CADD5E10077A28C /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F89E2CADD5E10077A28C /* BLEManager.swift */; };
 		91B9F8A32CADD6A90077A28C /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F8A22CADD6A90077A28C /* Peripheral.swift */; };
 		91B9F8A52CAEDA330077A28C /* BluetoothDevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */; };
+		91BDD9EB2CCB0B89009147FC /* RotatePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BDD9EA2CCB0B89009147FC /* RotatePoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,7 @@
 		91B9F89E2CADD5E10077A28C /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 		91B9F8A22CADD6A90077A28C /* Peripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
 		91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDevicesView.swift; sourceTree = "<group>"; };
+		91BDD9EA2CCB0B89009147FC /* RotatePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatePoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				0D243C122C95E3FD00F7D657 /* InfoHover.swift */,
 				0D243C162C95EA3200F7D657 /* LineChart.swift */,
 				91B9F89E2CADD5E10077A28C /* BLEManager.swift */,
+				91BDD9EA2CCB0B89009147FC /* RotatePoint.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				91457B422C76B852006159B6 /* ContentView.swift in Sources */,
 				91480EB02C988F260099A942 /* ConfigureAlertsTab.swift in Sources */,
 				91457B402C76B852006159B6 /* posturebestApp.swift in Sources */,
+				91BDD9EB2CCB0B89009147FC /* RotatePoint.swift in Sources */,
 				9104514D2C88AE6600C96CFE /* ConfigurationsView.swift in Sources */,
 				9161B4292C91FFA500B24C20 /* ColorExtensions.swift in Sources */,
 				91480EAE2C988EFB0099A942 /* ConfigureDeviceTab.swift in Sources */,
