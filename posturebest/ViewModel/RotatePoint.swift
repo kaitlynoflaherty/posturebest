@@ -9,7 +9,7 @@ import Foundation
 import CoreBluetooth
 import simd
 
-func rotatePoint(from characteristic: CBCharacteristic) -> simd_double3? {
+func rotatePoint(from characteristic: CBCharacteristic) -> Double? {
     // Convert the value to an array of bytes
     guard let value = characteristic.value else {
         print("Characteristic value is nil")
@@ -20,33 +20,32 @@ func rotatePoint(from characteristic: CBCharacteristic) -> simd_double3? {
     print("Bytes: \(bytes)")
     
     // Validate 32 bytes
-    guard bytes.count >= 32 else {
+    guard bytes.count >= 64 else {
         print("Not enough bytes")
         return nil
     }
     
     // Convert bytes to an array of doubles
     var doubles: [Double] = []
-    for i in stride(from: 0, to: 32, by: 8) {
+    for i in stride(from: 0, to: 64, by: 8) {
         let byteRange = bytes[i..<i+8]
         let doubleValue = byteRange.withUnsafeBytes { $0.load(as: Double.self) }
         doubles.append(doubleValue)
     }
     print("Doubles: \(doubles)")
     
-    // Validate four doubles for the quaternion
-    guard doubles.count >= 4 else {
+    // Validate 8 doubles for the 2 quaternion
+    guard doubles.count >= 8 else {
         print("Not enough doubles for quaternion")
         return nil
     }
     
     // Create the quaternion: w, x, y, z
-    let quaternion = simd_quatd(ix: doubles[1], iy: doubles[2], iz: doubles[3], r: doubles[0])
+    let quaternion1 = simd_quatd(ix: doubles[1], iy: doubles[2], iz: doubles[3], r: doubles[0])
+    let quaternion2 = simd_quatd(ix: doubles[5], iy: doubles[6], iz: doubles[7], r: doubles[4])
     
-    let point = simd_double3(1.0, 0.0, 0.0) // Example point
+    let q1conjugate = quaternion1.conjugate
+    let product = q1conjugate * quaternion2
     
-    // Rotate the point using the quaternion
-    let rotatedPoint = quaternion.act(point)
-
-    return rotatedPoint
+    return product.angle
 }

@@ -131,8 +131,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             print("Characteristic value is nil.")
         }
         
-        if let rotatedPoint = rotatePoint(from: characteristic) {
-                print("Rotated Point: \(rotatedPoint)")
+        if let angle = rotatePoint(from: characteristic) {
+                print("Angle: \(angle)")
             }
     }
 }
