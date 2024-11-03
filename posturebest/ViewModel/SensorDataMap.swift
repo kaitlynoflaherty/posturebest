@@ -1,15 +1,15 @@
 //
-//  RotatePoint.swift
+//  SensorDataMap.swift
 //  posturebest
 //
-//  Created by Kaitlyn O’Flaherty on 10/24/24.
+//  Created by Kaitlyn O’Flaherty on 11/2/24.
 //
 
 import Foundation
 import CoreBluetooth
 import simd
 
-func rotatePoint(from characteristic: CBCharacteristic) -> [simd_quatd]? {
+func SensorDataMap(from characteristic: CBCharacteristic) -> [simd_quatd]? {
     let numSensors = 5;
     let totalBytes = 32 * numSensors
     let totalDoubles = 4 * numSensors
@@ -50,7 +50,7 @@ func rotatePoint(from characteristic: CBCharacteristic) -> [simd_quatd]? {
     let quaternion1 = simd_quatd(ix: doubles[1], iy: doubles[2], iz: doubles[3], r: doubles[0])
     var relativeQuaternions: [simd_quatd] = []
     
-    let inverseQuaternion1 = 
+    let inverseQuaternion1 = simd_quatd(ix: -quaternion1.imag.x, iy: -quaternion1.imag.y, iz: -quaternion1.imag.z, r: quaternion1.real)
     
     // Calculate relative quaternions
     for sensorIndex in 1..<numSensors {
@@ -62,3 +62,4 @@ func rotatePoint(from characteristic: CBCharacteristic) -> [simd_quatd]? {
         
         return relativeQuaternions
 }
+
