@@ -50,7 +50,7 @@ func SensorDataMap(from characteristic: CBCharacteristic) -> [simd_quatd]? {
     let quaternion1 = simd_quatd(ix: doubles[1], iy: doubles[2], iz: doubles[3], r: doubles[0])
     var relativeQuaternions: [simd_quatd] = []
     
-    let inverseQuaternion1 = simd_quatd(ix: -quaternion1.imag.x, iy: -quaternion1.imag.y, iz: -quaternion1.imag.z, r: quaternion1.real)
+    let inverseQuaternion1 = quaternion1.inverse
     
     // Calculate relative quaternions
     for sensorIndex in 1..<numSensors {
