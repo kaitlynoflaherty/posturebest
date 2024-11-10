@@ -27,11 +27,10 @@
 		91480EAE2C988EFB0099A942 /* ConfigureDeviceTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91480EAD2C988EFB0099A942 /* ConfigureDeviceTab.swift */; };
 		91480EB02C988F260099A942 /* ConfigureAlertsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91480EAF2C988F260099A942 /* ConfigureAlertsTab.swift */; };
 		9161B4292C91FFA500B24C20 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9161B4282C91FFA500B24C20 /* ColorExtensions.swift */; };
-		917C002A2CD6BE0E0006E2F4 /* SensorDataMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917C00292CD6BE0E0006E2F4 /* SensorDataMap.swift */; };
+		917C002E2CDBDAB40006E2F4 /* TraverseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917C002D2CDBDAB40006E2F4 /* TraverseModel.swift */; };
 		91B9F89F2CADD5E10077A28C /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F89E2CADD5E10077A28C /* BLEManager.swift */; };
 		91B9F8A32CADD6A90077A28C /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F8A22CADD6A90077A28C /* Peripheral.swift */; };
 		91B9F8A52CAEDA330077A28C /* BluetoothDevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */; };
-		91BDD9EB2CCB0B89009147FC /* RotatePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BDD9EA2CCB0B89009147FC /* RotatePoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,11 +74,10 @@
 		91480EAD2C988EFB0099A942 /* ConfigureDeviceTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureDeviceTab.swift; sourceTree = "<group>"; };
 		91480EAF2C988F260099A942 /* ConfigureAlertsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureAlertsTab.swift; sourceTree = "<group>"; };
 		9161B4282C91FFA500B24C20 /* ColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
-		917C00292CD6BE0E0006E2F4 /* SensorDataMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDataMap.swift; sourceTree = "<group>"; };
+		917C002D2CDBDAB40006E2F4 /* TraverseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraverseModel.swift; sourceTree = "<group>"; };
 		91B9F89E2CADD5E10077A28C /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 		91B9F8A22CADD6A90077A28C /* Peripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
 		91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDevicesView.swift; sourceTree = "<group>"; };
-		91BDD9EA2CCB0B89009147FC /* RotatePoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatePoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,8 +197,7 @@
 				0D243C122C95E3FD00F7D657 /* InfoHover.swift */,
 				0D243C162C95EA3200F7D657 /* LineChart.swift */,
 				91B9F89E2CADD5E10077A28C /* BLEManager.swift */,
-				91BDD9EA2CCB0B89009147FC /* RotatePoint.swift */,
-				917C00292CD6BE0E0006E2F4 /* SensorDataMap.swift */,
+				917C002D2CDBDAB40006E2F4 /* TraverseModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -337,12 +334,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				917C002A2CD6BE0E0006E2F4 /* SensorDataMap.swift in Sources */,
 				9104514F2C88AE7500C96CFE /* UserProfileView.swift in Sources */,
 				91B9F8A32CADD6A90077A28C /* Peripheral.swift in Sources */,
 				91457B4C2C76B856006159B6 /* posturebest.xcdatamodeld in Sources */,
 				91457B492C76B856006159B6 /* Persistence.swift in Sources */,
 				9104514B2C88AE4F00C96CFE /* HomeView.swift in Sources */,
+				917C002E2CDBDAB40006E2F4 /* TraverseModel.swift in Sources */,
 				0DB7F8072CC0AF76003FAD7C /* Torso3DView.swift in Sources */,
 				0D243C172C95EA3200F7D657 /* LineChart.swift in Sources */,
 				91B9F89F2CADD5E10077A28C /* BLEManager.swift in Sources */,
@@ -351,7 +348,6 @@
 				91457B422C76B852006159B6 /* ContentView.swift in Sources */,
 				91480EB02C988F260099A942 /* ConfigureAlertsTab.swift in Sources */,
 				91457B402C76B852006159B6 /* posturebestApp.swift in Sources */,
-				91BDD9EB2CCB0B89009147FC /* RotatePoint.swift in Sources */,
 				9104514D2C88AE6600C96CFE /* ConfigurationsView.swift in Sources */,
 				9161B4292C91FFA500B24C20 /* ColorExtensions.swift in Sources */,
 				91480EAE2C988EFB0099A942 /* ConfigureDeviceTab.swift in Sources */,
