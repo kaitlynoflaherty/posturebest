@@ -9,11 +9,6 @@
 /* Begin PBXBuildFile section */
 		0D243C132C95E3FD00F7D657 /* InfoHover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D243C122C95E3FD00F7D657 /* InfoHover.swift */; };
 		0D243C172C95EA3200F7D657 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D243C162C95EA3200F7D657 /* LineChart.swift */; };
-		0D5BD02C2CC7DC1F003CDA7F /* male.blend in Resources */ = {isa = PBXBuildFile; fileRef = 0D5BD0292CC7DC1F003CDA7F /* male.blend */; };
-		0D5BD02D2CC7DC1F003CDA7F /* female.blend in Resources */ = {isa = PBXBuildFile; fileRef = 0D5BD0272CC7DC1F003CDA7F /* female.blend */; };
-		0D5BD02E2CC7DC1F003CDA7F /* male.glb in Resources */ = {isa = PBXBuildFile; fileRef = 0D5BD02A2CC7DC1F003CDA7F /* male.glb */; };
-		0D5BD02F2CC7DC1F003CDA7F /* female.glb in Resources */ = {isa = PBXBuildFile; fileRef = 0D5BD0282CC7DC1F003CDA7F /* female.glb */; };
-		0D5EEB3F2CCEB7D400F2FE57 /* new_man.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D5EEB3E2CCEB7D400F2FE57 /* new_man.dae */; };
 		0D7117D52CE682390068E212 /* male-2.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D7117D42CE682390068E212 /* male-2.dae */; };
 		0D8810FE2CC57A5200FA9CB8 /* human_man.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D8810FD2CC57A5200FA9CB8 /* human_man.dae */; };
 		0D8811002CC57AD500FA9CB8 /* human_woman.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */; };
@@ -58,11 +53,6 @@
 /* Begin PBXFileReference section */
 		0D243C122C95E3FD00F7D657 /* InfoHover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHover.swift; sourceTree = SOURCE_ROOT; };
 		0D243C162C95EA3200F7D657 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = SOURCE_ROOT; };
-		0D5BD0272CC7DC1F003CDA7F /* female.blend */ = {isa = PBXFileReference; lastKnownFileType = file; path = female.blend; sourceTree = "<group>"; };
-		0D5BD0282CC7DC1F003CDA7F /* female.glb */ = {isa = PBXFileReference; lastKnownFileType = file; path = female.glb; sourceTree = "<group>"; };
-		0D5BD0292CC7DC1F003CDA7F /* male.blend */ = {isa = PBXFileReference; lastKnownFileType = file; path = male.blend; sourceTree = "<group>"; };
-		0D5BD02A2CC7DC1F003CDA7F /* male.glb */ = {isa = PBXFileReference; lastKnownFileType = file; path = male.glb; sourceTree = "<group>"; };
-		0D5EEB3E2CCEB7D400F2FE57 /* new_man.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = new_man.dae; sourceTree = "<group>"; };
 		0D7117D42CE682390068E212 /* male-2.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = "male-2.dae"; sourceTree = "<group>"; };
 		0D8810FD2CC57A5200FA9CB8 /* human_man.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = human_man.dae; sourceTree = "<group>"; };
 		0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = human_woman.dae; sourceTree = "<group>"; };
@@ -115,18 +105,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0D5BD02B2CC7DC1F003CDA7F /* skeletons */ = {
-			isa = PBXGroup;
-			children = (
-				0D5EEB3E2CCEB7D400F2FE57 /* new_man.dae */,
-				0D5BD0272CC7DC1F003CDA7F /* female.blend */,
-				0D5BD0282CC7DC1F003CDA7F /* female.glb */,
-				0D5BD0292CC7DC1F003CDA7F /* male.blend */,
-				0D5BD02A2CC7DC1F003CDA7F /* male.glb */,
-			);
-			path = skeletons;
-			sourceTree = "<group>";
-		};
 		91457B332C76B852006159B6 = {
 			isa = PBXGroup;
 			children = (
@@ -150,7 +128,6 @@
 		91457B3E2C76B852006159B6 /* posturebest */ = {
 			isa = PBXGroup;
 			children = (
-				0D5BD02B2CC7DC1F003CDA7F /* skeletons */,
 				91457B3F2C76B852006159B6 /* posturebestApp.swift */,
 				91457B412C76B852006159B6 /* ContentView.swift */,
 				9161B42B2C920D4F00B24C20 /* Views */,
@@ -329,11 +306,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D5BD02C2CC7DC1F003CDA7F /* male.blend in Resources */,
-				0D5BD02D2CC7DC1F003CDA7F /* female.blend in Resources */,
-				0D5BD02E2CC7DC1F003CDA7F /* male.glb in Resources */,
-				0D5EEB3F2CCEB7D400F2FE57 /* new_man.dae in Resources */,
-				0D5BD02F2CC7DC1F003CDA7F /* female.glb in Resources */,
 				91457B472C76B856006159B6 /* Preview Assets.xcassets in Resources */,
 				0D8811002CC57AD500FA9CB8 /* human_woman.dae in Resources */,
 				0D8810FE2CC57A5200FA9CB8 /* human_man.dae in Resources */,

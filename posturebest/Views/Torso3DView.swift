@@ -1,4 +1,9 @@
-
+//
+//  Torso3DView.swift
+//  posturebest
+//
+//  Created by Madeline Coco on 10/16/24.
+//
 
 import SwiftUI
 import SceneKit
