@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0D243C132C95E3FD00F7D657 /* InfoHover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D243C122C95E3FD00F7D657 /* InfoHover.swift */; };
 		0D243C172C95EA3200F7D657 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D243C162C95EA3200F7D657 /* LineChart.swift */; };
+		0D7117D52CE682390068E212 /* male-2.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D7117D42CE682390068E212 /* male-2.dae */; };
 		0D8810FE2CC57A5200FA9CB8 /* human_man.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D8810FD2CC57A5200FA9CB8 /* human_man.dae */; };
 		0D8811002CC57AD500FA9CB8 /* human_woman.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */; };
 		0DB7F8072CC0AF76003FAD7C /* Torso3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB7F8062CC0AF69003FAD7C /* Torso3DView.swift */; };
@@ -52,6 +53,7 @@
 /* Begin PBXFileReference section */
 		0D243C122C95E3FD00F7D657 /* InfoHover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHover.swift; sourceTree = SOURCE_ROOT; };
 		0D243C162C95EA3200F7D657 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = SOURCE_ROOT; };
+		0D7117D42CE682390068E212 /* male-2.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = "male-2.dae"; sourceTree = "<group>"; };
 		0D8810FD2CC57A5200FA9CB8 /* human_man.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = human_man.dae; sourceTree = "<group>"; };
 		0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = human_woman.dae; sourceTree = "<group>"; };
 		0DB7F8062CC0AF69003FAD7C /* Torso3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Torso3DView.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 				0D8810FD2CC57A5200FA9CB8 /* human_man.dae */,
 				91B9F8A22CADD6A90077A28C /* Peripheral.swift */,
 				0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */,
+				0D7117D42CE682390068E212 /* male-2.dae */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				0D8811002CC57AD500FA9CB8 /* human_woman.dae in Resources */,
 				0D8810FE2CC57A5200FA9CB8 /* human_man.dae in Resources */,
 				91457B442C76B856006159B6 /* Assets.xcassets in Resources */,
+				0D7117D52CE682390068E212 /* male-2.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
