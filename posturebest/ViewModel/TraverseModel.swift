@@ -13,11 +13,11 @@ import SceneKit
 // import Torso3DView for skeletonNode (has the hierarchy for child nodes)
 
 class SensorDataProcessor {
-    var orientationDictionary: [String: simd_quatd] = [:]
-    let boneNames = ["midBack", "upperBack", "rightShoulder", "leftShoulder"]
-//    let childrenOfNode =
+    var orientationDictionary: [String: simd_quatf] = [:]
+//    let boneNames = ["midBack", "upperBack", "rightShoulder", "leftShoulder"]
+    let boneNames = ["midBack", "upperBack"]
     
-    func MapSensorDataToBones(from characteristic: CBCharacteristic) -> [String: simd_quatd]? {
+    func MapSensorDataToBones(from characteristic: CBCharacteristic) -> [String: simd_quatf]? {
         let numSensors = 5
         let totalBytes = 32 * numSensors
         let totalDoubles = 4 * numSensors
@@ -55,19 +55,16 @@ class SensorDataProcessor {
         }
         
         // Create the quaternion: w, x, y, z
-        let quaternion1 = simd_quatd(ix: doubles[1], iy: doubles[2], iz: doubles[3], r: doubles[0])
-        print("Quaternion1: \(quaternion1)")
+        let quaternion0 = simd_quatf(ix: Float(doubles[1]), iy: Float(doubles[2]), iz: Float(doubles[3]), r: Float(doubles[0]))
+                print("Quaternion0: \(quaternion0)")
         
         // Update the quaternion for lowerBack (root node)
-        orientationDictionary["lowerBack"] = quaternion1
-        
-        let inverseQuaternion1 = quaternion1.inverse
-        
+        orientationDictionary["lowerBack"] = quaternion0
+                
         // Update quaternions for each bone in the dictionary
         for sensorIndex in 1..<numSensors {
             let baseIndex = sensorIndex * 4
-            let quaternion = simd_quatd(ix: doubles[baseIndex + 1], iy: doubles[baseIndex + 2], iz: doubles[baseIndex + 3], r: doubles[baseIndex])
-            
+            let quaternion = simd_quatf(ix: Float(doubles[baseIndex + 1]), iy: Float(doubles[baseIndex + 2]), iz: Float(doubles[baseIndex + 3]), r: Float(doubles[baseIndex]))
             // Directly map quat to the bone name
             if sensorIndex - 1 < boneNames.count {
                 orientationDictionary[boneNames[sensorIndex - 1]] = quaternion
@@ -76,6 +73,32 @@ class SensorDataProcessor {
         
         print("Updated Orientation Dictionary: \(orientationDictionary)")
         return orientationDictionary
+    }
+    
+    func traverseNodes(node: SCNNode) {
+        var cursor =  node.simdWorldOrientation
+
+        let predicate: (SCNNode, UnsafeMutablePointer<ObjCBool>) -> Bool = { node, stop in
+            if let _ = self.orientationDictionary[node.name!] {
+                return true
+            }
+            return false
+        }
+        
+        let nodesToTraverse = node.childNodes(passingTest: predicate)
+        print("nodesToTraverse \(nodesToTraverse)")
+        
+        node.enumerateHierarchy { (boneNode, stop) in
+                if nodesToTraverse.contains(boneNode) {
+                    if let orientation = self.orientationDictionary[node.name!] {
+                        boneNode.simdOrientation = orientation * cursor.conjugate
+                        cursor = orientation
+                    }
+                } else {
+                    cursor = boneNode.simdOrientation * cursor.conjugate
+                }
+        }
+        
     }
 
 }
