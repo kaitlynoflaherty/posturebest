@@ -9,6 +9,9 @@ import SwiftUI
 import SceneKit
 
 struct Model3DView: UIViewRepresentable {
+    var sensorDataProcessor = SensorDataProcessor()
+    var bleManager = BLEManager()
+    var torso3DUtil = Torso3DUtil()
     
     func makeUIView(context: Context) -> SCNView {
         let sceneView = SCNView()
@@ -75,6 +78,21 @@ struct Model3DView: UIViewRepresentable {
 
         // Print the node hierarchy for debugging
         printNodeHierarchy(node: scene.rootNode)
+        
+//         tests if change in orientation works (it does)
+        if let lowerBackNode = scene.rootNode.childNode(withName: "Hips", recursively: true) {
+            print("lower back node found: \(lowerBackNode.simdOrientation)")
+            print("lower back node found world: \(lowerBackNode.simdWorldOrientation)")
+
+
+//            lowerBackNode.simdOrientation = simd_quatf(ix: 0.5, iy: 0.5, iz: 0.5, r: 0.5)
+            
+            
+        } else {
+            print("Hips node not found")
+        }
+        
+        torso3DUtil.setNode(node: skeletonNode.childNodes.first!)
 
         print("Model loaded successfully!")
     }

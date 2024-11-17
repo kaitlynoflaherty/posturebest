@@ -9,7 +9,10 @@ import Foundation
 import CoreBluetooth
 
 class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+    var sensorDataProcessor = SensorDataProcessor()
+    var torso3DUtil = Torso3DUtil()
     var myCentral: CBCentralManager!
+    
     @Published var isSwitchedOn = false
     @Published var periperals = [Peripheral]() // stores discovered periphs
     @Published var connectedPeripheralUUID: UUID?
@@ -106,14 +109,12 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     // Delegate method for when characteristics discovered on service
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let characteristics = service.characteristics {
-            for characteristic in characteristics {
-                if characteristic.properties.contains(.read) {
+                if characteristics[0].properties.contains(.read) {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        peripheral.readValue(for: characteristic)
+                        peripheral.readValue(for: characteristics[0])
                     }
-                    print("Discovered characteristic: \(characteristic)")
+                    print("Discovered characteristic: \(characteristics[0])")
                 }
-            }
         }
     }
     
@@ -127,6 +128,16 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         if let value = characteristic.value {
             let bytes = [UInt8](value)
             print("Characteristic Value: \(bytes)")
+            
+            // node stuff
+            sensorDataProcessor.MapSensorDataToBones(from: characteristic)
+            if let rootNode = torso3DUtil.getNode() {
+                print("Retrieved copied node \(rootNode).")
+                sensorDataProcessor.traverseNodes(node: rootNode)
+            } else {
+                print("No copied node found.")
+            }
+            
         } else {
             print("Characteristic value is nil.")
         }
