@@ -74,7 +74,7 @@ struct Model3DView: UIViewRepresentable {
     private func addLights(to scene: SCNScene) {
         let ambientLight = SCNLight()
         ambientLight.type = .ambient
-        ambientLight.color = UIColor.darkGray
+        ambientLight.color = UIColor.white
         let ambientLightNode = SCNNode()
         ambientLightNode.light = ambientLight
         ambientLightNode.position = SCNVector3(0, 10, 0)
@@ -92,8 +92,8 @@ struct Model3DView: UIViewRepresentable {
     private func addCamera(to scene: SCNScene) {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3(x: 0, y: 1.2, z: 2)
-        cameraNode.look(at: SCNVector3(0, 1.2, 0))
+        cameraNode.position = SCNVector3(x: 0, y: 1, z: 3)
+        cameraNode.look(at: SCNVector3(0, 0, 0))
         cameraNode.camera?.fieldOfView = 45
         scene.rootNode.addChildNode(cameraNode)
     }
