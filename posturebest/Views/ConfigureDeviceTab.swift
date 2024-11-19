@@ -25,9 +25,9 @@ struct ConfigureDeviceTab: View {
         VStack(alignment: .leading, spacing: 5) {
             HStack {
                 Text("Welcome to Vest Configuration!")
-                .font(.headline)
-                .foregroundStyle(Color(hex: "#374663"))
-                .padding(.bottom, 10)
+                    .font(.headline)
+                    .foregroundStyle(Color(hex: "#374663"))
+                    .padding(.bottom, 10)
                 
                 InfoButtonView(message: vestConfigInfo, buttonSize: 15, title: "Vest Configuration", color: Color(.blue)).offset(x: -20, y: -5)
             }
@@ -56,20 +56,21 @@ struct ConfigureDeviceTab: View {
                     showErrorAlert = true
                 }
             }.buttonStyle(.bordered)
-            .alert(isPresented: $showErrorAlert) {
-            Alert(
-                title: Text("Error"),
-                message: Text("Device not connected. Please make sure the Posture Vest is paired with your device."),
-                dismissButton: .default(Text("OK"))
-                                )
-                            }
+                .alert(isPresented: $showErrorAlert) {
+                    Alert(
+                        title: Text("Error"),
+                        message: Text("Device not connected. Please make sure the Posture Vest is paired with your device."),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
         })
     }
-
-
-struct ConfigureDeviceTab_Previews: PreviewProvider {
-    static var previews: some View {
-        ConfigureDeviceTab()
+    
+    
+    struct ConfigureDeviceTab_Previews: PreviewProvider {
+        static var previews: some View {
+            ConfigureDeviceTab()
+        }
     }
+    
 }
-
