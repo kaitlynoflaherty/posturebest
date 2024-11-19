@@ -36,19 +36,19 @@ struct Model3DView: UIViewRepresentable {
         let indentation = String(repeating: "  ", count: depth)
         
         // Print node details
-        print("\(indentation)Node: \(node.name ?? "Unnamed Node")")
-        print("\(indentation)  Position: \(node.position)")
-        print("\(indentation)  Rotation: \(node.rotation)")
-        print("\(indentation)  Scale: \(node.scale)")
+//        print("\(indentation)Node: \(node.name ?? "Unnamed Node")")
+//        print("\(indentation)  Position: \(node.position)")
+//        print("\(indentation)  Rotation: \(node.rotation)")
+//        print("\(indentation)  Scale: \(node.scale)")
         
         // Recursively print child nodes
-         for childNode in node.childNodes {
-            printNodeHierarchy(node: childNode, depth: depth + 1)
-        }
+//         for childNode in node.childNodes {
+//            printNodeHierarchy(node: childNode, depth: depth + 1)
+//        }
     }
     
     private func loadModel(into scene: SCNScene, context: Context) {
-        guard let modelScene = SCNScene(named: "male-2.dae") else {
+        guard let modelScene = SCNScene(named: "male-new.dae") else {
             print("Failed to load the model.")
             return
         }
@@ -60,39 +60,55 @@ struct Model3DView: UIViewRepresentable {
         }
         
         //Fix from upside down imported position
-        skeletonNode.eulerAngles.x = .pi
+        skeletonNode.eulerAngles.y = .pi
         
-        // Calculate the bounding box and center of the skeletonNode
-        let (min, max) = skeletonNode.boundingBox
-        let center = SCNVector3(
-            (min.x + max.x) / 2,
-            (min.y + max.y) / 2,
-            (min.z + max.z) / 2
-        )
-        print("Center of Skeleton: \(center)")
-
-        skeletonNode.position = SCNVector3(-center.x, -center.y - 1, -center.z)
+//        // Calculate the bounding box and center of the skeletonNode
+//        let (min, max) = skeletonNode.boundingBox
+//        let center = SCNVector3(
+//            (min.x + max.x) / 2,
+//            (min.y + max.y) / 2,
+//            (min.z + max.z) / 2
+//        )
+//        print("Center of Skeleton: \(center)")
+//
+//        skeletonNode.position = SCNVector3(-center.x, -center.y - 1, -center.z)
 
         scene.rootNode.addChildNode(skeletonNode)
         context.coordinator.modelNode = skeletonNode
 
         // Print the node hierarchy for debugging
-        printNodeHierarchy(node: scene.rootNode)
-        
+//        printNodeHierarchy(node: scene.rootNode)
+                
 //         tests if change in orientation works (it does)
-        if let lowerBackNode = scene.rootNode.childNode(withName: "Hips", recursively: true) {
-            print("lower back node found: \(lowerBackNode.simdOrientation)")
-            print("lower back node found world: \(lowerBackNode.simdWorldOrientation)")
+        if let Human = scene.rootNode.childNode(withName: "HumanMale", recursively: true) {
+//            print("lower back node found: \(lowerBackNode.simdOrientation)")
+//            print("lower back node found world: \(lowerBackNode.simdWorldOrientation)")
+            let lowerBackNode = Human.skinner?.skeleton?.childNode(withName: "LowerBack", recursively: true)!
+            torso3DUtil.setReferenceOrientation(orientation: lowerBackNode!.simdWorldOrientation)
 
-
-//            lowerBackNode.simdOrientation = simd_quatf(ix: 0.5, iy: 0.5, iz: 0.5, r: 0.5)
             
-            
+            let midBackNode = Human.skinner?.skeleton?.childNode(withName: "MidBack", recursively: true)!
+//            midBackNode!.rotate = 0.75
+//            print("mid back: \(midBackNode?.simdWorldOrientation)")
+//
+            let upperBackNode = (Human.skinner?.skeleton?.childNode(withName: "UpperBack", recursively: true))!
+//            upperBackNode!.rotation.x = 0.75
+//            print("upper back: \(upperBackNode.simdWorldOrientation)")
+//
+//            print("Human Male: \(midBackNode.skinner?.skeleton?.childNodes)")
+            torso3DUtil.setMidBackNode(node: midBackNode!)
+            torso3DUtil.setUpperBackNode(node: upperBackNode)
         } else {
             print("Hips node not found")
         }
+//        if let upperBackNode = scene.rootNode.childNode(withName: "UpperBack", recursively: true) {
+//            upperBackNode.rotation.z = 0.75
+//
+////            torso3DUtil.setNode(node: upperBackNode)
+//        } else {
+//            print("upper back node not found")
+//        }
         
-        torso3DUtil.setNode(node: skeletonNode.childNodes.first!)
 
         print("Model loaded successfully!")
     }
@@ -101,7 +117,7 @@ struct Model3DView: UIViewRepresentable {
     private func addLights(to scene: SCNScene) {
         let ambientLight = SCNLight()
         ambientLight.type = .ambient
-        ambientLight.color = UIColor.white
+        ambientLight.color = UIColor.darkGray
         let ambientLightNode = SCNNode()
         ambientLightNode.light = ambientLight
         ambientLightNode.position = SCNVector3(0, 10, 0)
@@ -119,8 +135,8 @@ struct Model3DView: UIViewRepresentable {
     private func addCamera(to scene: SCNScene) {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3(x: 0, y: 1, z: 3)
-        cameraNode.look(at: SCNVector3(0, 0, 0))
+        cameraNode.position = SCNVector3(x: 0, y: 1.2, z: 2)
+        cameraNode.look(at: SCNVector3(0, 1.2, 0))
         cameraNode.camera?.fieldOfView = 45
         scene.rootNode.addChildNode(cameraNode)
     }

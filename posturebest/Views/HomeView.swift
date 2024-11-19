@@ -56,18 +56,18 @@ struct HomeView: View {
                         }
                     }
                 
-                VStack {
-                    Text("Progress Tracker")
-                        .font(.headline)
-                        .padding()
-                    
-                    LineChart(data: chartData)
-                    
-                    Spacer(minLength: 20)
-                    
-                }
-                .navigationTitle("Home")
-                .background(Color.white.ignoresSafeArea())
+//                VStack {
+//                    Text("Progress Tracker")
+//                        .font(.headline)
+//                        .padding()
+//                    
+//                    LineChart(data: chartData)
+//                    
+//                    Spacer(minLength: 20)
+//                    
+//                }
+//                .navigationTitle("Home")
+//                .background(Color.white.ignoresSafeArea())
             }
         }
     }

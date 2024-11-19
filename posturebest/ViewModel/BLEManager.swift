@@ -7,11 +7,13 @@
 
 import Foundation
 import CoreBluetooth
+import simd
 
 class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     var sensorDataProcessor = SensorDataProcessor()
     var torso3DUtil = Torso3DUtil()
     var myCentral: CBCentralManager!
+    var readTimer: Timer?
     
     @Published var isSwitchedOn = false
     @Published var periperals = [Peripheral]() // stores discovered periphs
@@ -110,15 +112,26 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let characteristics = service.characteristics {
                 if characteristics[0].properties.contains(.read) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        peripheral.readValue(for: characteristics[0])
-                    }
-                    print("Discovered characteristic: \(characteristics[0])")
+                    // Perform an initial read
+                    peripheral.readValue(for: characteristics[0])
+
+                    // Set up a periodic timer to continue reading the characteristic
+                    startPeriodicRead(for: peripheral, characteristic: characteristics[0])
+//                    print("Discovered characteristic: \(characteristics[0])")
                 }
         }
     }
     
-    // Delegate method to update the value field for a characteristic
+    func startPeriodicRead(for peripheral: CBPeripheral, characteristic: CBCharacteristic) {
+        // Invalidate any existing timer
+        readTimer?.invalidate()
+        
+        // Start a new timer that reads the characteristic every 1 second (adjust as needed)
+        readTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            peripheral.readValue(for: characteristic)
+        }
+    }
+
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
             print("Error reading characteristic: \(error.localizedDescription)")
@@ -127,19 +140,51 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         
         if let value = characteristic.value {
             let bytes = [UInt8](value)
-            print("Characteristic Value: \(bytes)")
+//            print("Characteristic Value: \(bytes)")
             
-            // node stuff
+            // Process sensor data or update 3D model here
             sensorDataProcessor.MapSensorDataToBones(from: characteristic)
-            if let rootNode = torso3DUtil.getNode() {
-                print("Retrieved copied node \(rootNode).")
+            if let rootNode = torso3DUtil.getUpperNode() {
+//                print("Retrieved copied node \(rootNode).")
                 sensorDataProcessor.traverseNodes(node: rootNode)
             } else {
                 print("No copied node found.")
             }
             
+            if let rootNode = torso3DUtil.getMidNode() {
+//                print("Retrieved copied node \(rootNode).")
+                sensorDataProcessor.traverseNodes(node: rootNode)
+            } else {
+                print("No copied node found.")
+            }
         } else {
             print("Characteristic value is nil.")
         }
     }
+
+    
+    // Delegate method to update the value field for a characteristic
+//    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
+//        if let error = error {
+//            print("Error reading characteristic: \(error.localizedDescription)")
+//            return
+//        }
+//        
+//        if let value = characteristic.value {
+//            let bytes = [UInt8](value)
+//            print("Characteristic Value: \(bytes)")
+//            
+//            // node stuff
+//            sensorDataProcessor.MapSensorDataToBones(from: characteristic)
+//            if let rootNode = torso3DUtil.getNode() {
+//                print("Retrieved copied node \(rootNode).")
+//                sensorDataProcessor.traverseNodes(node: rootNode)
+//            } else {
+//                print("No copied node found.")
+//            }
+//            
+//        } else {
+//            print("Characteristic value is nil.")
+//        }
+//    }
 }

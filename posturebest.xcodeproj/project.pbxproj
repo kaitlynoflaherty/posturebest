@@ -33,6 +33,9 @@
 		91B9F8A52CAEDA330077A28C /* BluetoothDevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */; };
 		91DD4C832CE68ED10063F4DC /* SensorDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DD4C822CE68ED10063F4DC /* SensorDataProcessor.swift */; };
 		91DD4C852CE69A300063F4DC /* Torso3DUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DD4C842CE69A300063F4DC /* Torso3DUtil.swift */; };
+		91DD4C912CEAB74B0063F4DC /* male-1.dae in Resources */ = {isa = PBXBuildFile; fileRef = 91DD4C902CEAB74B0063F4DC /* male-1.dae */; };
+		91DD4C972CED0F570063F4DC /* male.dae in Resources */ = {isa = PBXBuildFile; fileRef = 91DD4C962CED0F570063F4DC /* male.dae */; };
+		91DD4C992CED107D0063F4DC /* male-new.dae in Resources */ = {isa = PBXBuildFile; fileRef = 91DD4C982CED107D0063F4DC /* male-new.dae */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +85,9 @@
 		91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDevicesView.swift; sourceTree = "<group>"; };
 		91DD4C822CE68ED10063F4DC /* SensorDataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDataProcessor.swift; sourceTree = "<group>"; };
 		91DD4C842CE69A300063F4DC /* Torso3DUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Torso3DUtil.swift; sourceTree = "<group>"; };
+		91DD4C902CEAB74B0063F4DC /* male-1.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = "male-1.dae"; sourceTree = "<group>"; };
+		91DD4C962CED0F570063F4DC /* male.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = male.dae; sourceTree = "<group>"; };
+		91DD4C982CED107D0063F4DC /* male-new.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = "male-new.dae"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +194,9 @@
 			isa = PBXGroup;
 			children = (
 				0D8810FD2CC57A5200FA9CB8 /* human_man.dae */,
+				91DD4C902CEAB74B0063F4DC /* male-1.dae */,
+				91DD4C982CED107D0063F4DC /* male-new.dae */,
+				91DD4C962CED0F570063F4DC /* male.dae */,
 				91B9F8A22CADD6A90077A28C /* Peripheral.swift */,
 				0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */,
 				0D7117D42CE682390068E212 /* male-2.dae */,
@@ -314,7 +323,10 @@
 			files = (
 				91457B472C76B856006159B6 /* Preview Assets.xcassets in Resources */,
 				0D8811002CC57AD500FA9CB8 /* human_woman.dae in Resources */,
+				91DD4C992CED107D0063F4DC /* male-new.dae in Resources */,
 				0D8810FE2CC57A5200FA9CB8 /* human_man.dae in Resources */,
+				91DD4C972CED0F570063F4DC /* male.dae in Resources */,
+				91DD4C912CEAB74B0063F4DC /* male-1.dae in Resources */,
 				91457B442C76B856006159B6 /* Assets.xcassets in Resources */,
 				0D7117D52CE682390068E212 /* male-2.dae in Resources */,
 			);
