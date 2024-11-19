@@ -103,7 +103,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         if let services = peripheral.services {
             for service in services {
                 print("Discovered service: \(service)")
-                peripheral.discoverCharacteristics(nil, for: service) // Discover characteristics for service
+                peripheral.discoverCharacteristics(nil, for: service)
             }
         }
     }
@@ -112,10 +112,10 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let characteristics = service.characteristics {
                 if characteristics[0].properties.contains(.read) {
-                    // Perform an initial read
+                    // Initial read
                     peripheral.readValue(for: characteristics[0])
 
-                    // Set up a periodic timer to continue reading the characteristic
+                    // Periodic timer to continue reading the characteristic
                     startPeriodicRead(for: peripheral, characteristic: characteristics[0])
                 }
         }
@@ -125,7 +125,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         // Invalidate any existing timer
         readTimer?.invalidate()
         
-        // Start a new timer that reads the characteristic every 1 second (adjust as needed)
+        // Reads the characteristic every 1 second (adjust as needed)
         readTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             peripheral.readValue(for: characteristic)
         }
@@ -137,7 +137,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
             return
         }
         
-        if let value = characteristic.value {
+        if characteristic.value != nil {
             sensorDataProcessor.MapSensorDataToBones(from: characteristic)
             
             if let UpperBackNode = modelHelper.getUpperNode() {
