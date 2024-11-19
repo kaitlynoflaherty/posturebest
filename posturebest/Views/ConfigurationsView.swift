@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct ConfigurationsView: View {
+struct MetricsView: View {
     let deviceName: String
-    let tabOptions = ["Configure Alerts", "Configure Device"]
-    @State private var tabState: String = "Configure Alerts"
+    let tabOptions = ["Goal Tracking", "Configure Device"]
+    @State private var tabState: String = "Goal Tracking"
     
     var body: some View {
         VStack {
             VStack {
-                Text("Configurations")
+                Text("Metrics")
                     .font(.largeTitle)
                     .foregroundStyle(Color(hex: "#374663"))
                     .padding()
@@ -41,14 +41,14 @@ struct ConfigurationsView: View {
                 
                 Spacer()
             }
-            .navigationTitle("Configurations")
+            .navigationTitle("Metrics")
             .background(Color.white.ignoresSafeArea())
         }
     }
 }
 
-struct ConfigurationsView_Previews: PreviewProvider {
+struct MetricsView_Previews: PreviewProvider {
     static var previews: some View {
-        ConfigurationsView(deviceName: "placeholder")
+        MetricsView(deviceName: "placeholder")
     }
 }

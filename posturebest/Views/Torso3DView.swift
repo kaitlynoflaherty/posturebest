@@ -83,7 +83,7 @@ struct Model3DView: UIViewRepresentable {
     private func addLights(to scene: SCNScene) {
         let ambientLight = SCNLight()
         ambientLight.type = .ambient
-        ambientLight.color = UIColor.white
+        ambientLight.color = UIColor.darkGray
         let ambientLightNode = SCNNode()
         ambientLightNode.light = ambientLight
         ambientLightNode.position = SCNVector3(0, 10, 0)
@@ -94,6 +94,7 @@ struct Model3DView: UIViewRepresentable {
         directionalLight.color = UIColor.white
         let directionalLightNode = SCNNode()
         directionalLightNode.light = directionalLight
+        directionalLightNode.look(at: SCNVector3(0, 0, 0))
         directionalLightNode.position = SCNVector3(0, 10, 10)
         scene.rootNode.addChildNode(directionalLightNode)
     }
