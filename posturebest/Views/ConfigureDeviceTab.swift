@@ -19,7 +19,7 @@ struct ConfigureDeviceTab: View {
     let vestConfigInfo = "Follow the steps to sync the Posture Vest to you app."
     let instructions = "1. Ensure your device is on and connected to the PostureBest app via bluetooth. \n2. Stand with your feet hip-width apart and toes pointing forward. \n3. Straighten back, neck and align shoulders to desired position. \n4. Hold position and press the configure button."
     let note = "Note: Please hold position for about 5 seconds while the device is being configured."
-    let boneNames = ["lowerBack", "midBack", "upperBack", "rightShoulder", "leftShoulder"]
+    let boneNames = ["LowerBack", "MidBack", "UpperBack", "RightShoulder", "LeftShoulder"]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
