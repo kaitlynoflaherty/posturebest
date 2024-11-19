@@ -117,7 +117,6 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
 
                     // Set up a periodic timer to continue reading the characteristic
                     startPeriodicRead(for: peripheral, characteristic: characteristics[0])
-//                    print("Discovered characteristic: \(characteristics[0])")
                 }
         }
     }
