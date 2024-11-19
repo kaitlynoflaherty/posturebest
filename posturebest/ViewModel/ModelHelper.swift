@@ -1,14 +1,14 @@
 //
-//  Torso3DUtil.swift
+//  ModelHelper.swift
 //  posturebest
 //
-//  Created by Kaitlyn O’Flaherty on 11/14/24.
+//  Created by Kaitlyn O’Flaherty on 11/19/24.
 //
 
 import Foundation
 import SceneKit
 
-class Torso3DUtil {
+class ModelHelper {
     var rootNode: SCNNode
     static var upperNode: SCNNode?
     static var midNode: SCNNode?
@@ -20,32 +20,31 @@ class Torso3DUtil {
         
         func setUpperBackNode(node: SCNNode) {
             let clonedNode = node
-            Torso3DUtil.upperNode = clonedNode
-//            print("Node copied and stored: \(clonedNode)")
+            ModelHelper.upperNode = clonedNode
         }
     
         func setMidBackNode(node: SCNNode) {
             let clonedNode = node
-            Torso3DUtil.midNode = clonedNode
-//            print("Node copied and stored: \(clonedNode)")
+            ModelHelper.midNode = clonedNode
         }
     
     
         func getUpperNode() -> SCNNode? {
-            return Torso3DUtil.upperNode
+            return ModelHelper.upperNode
         }
     
         func getMidNode() -> SCNNode? {
-            return Torso3DUtil.midNode
+            return ModelHelper.midNode
         }
 
         
         func setReferenceOrientation(orientation: simd_quatf) {
             let referenceOrientation = orientation
-            Torso3DUtil.referenceOrientation = referenceOrientation
+            ModelHelper.referenceOrientation = referenceOrientation
         }
 
         func getReferenceOrientation() -> simd_quatf {
-            return Torso3DUtil.referenceOrientation!
+            return ModelHelper.referenceOrientation!
         }
 }
+

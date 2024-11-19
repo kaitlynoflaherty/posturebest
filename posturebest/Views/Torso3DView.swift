@@ -11,7 +11,7 @@ import SceneKit
 struct Model3DView: UIViewRepresentable {
     var sensorDataProcessor = SensorDataProcessor()
     var bleManager = BLEManager()
-    var torso3DUtil = Torso3DUtil()
+    var modelHelper = ModelHelper()
     
     func makeUIView(context: Context) -> SCNView {
         let sceneView = SCNView()
@@ -33,18 +33,7 @@ struct Model3DView: UIViewRepresentable {
     }
     
     func printNodeHierarchy(node: SCNNode, depth: Int = 0) {
-        let indentation = String(repeating: "  ", count: depth)
-        
-        // Print node details
-//        print("\(indentation)Node: \(node.name ?? "Unnamed Node")")
-//        print("\(indentation)  Position: \(node.position)")
-//        print("\(indentation)  Rotation: \(node.rotation)")
-//        print("\(indentation)  Scale: \(node.scale)")
-        
-        // Recursively print child nodes
-//         for childNode in node.childNodes {
-//            printNodeHierarchy(node: childNode, depth: depth + 1)
-//        }
+        _ = String(repeating: "  ", count: depth)
     }
     
     private func loadModel(into scene: SCNScene, context: Context) {
@@ -61,54 +50,22 @@ struct Model3DView: UIViewRepresentable {
         
         //Fix from upside down imported position
         skeletonNode.eulerAngles.y = .pi
-        
-//        // Calculate the bounding box and center of the skeletonNode
-//        let (min, max) = skeletonNode.boundingBox
-//        let center = SCNVector3(
-//            (min.x + max.x) / 2,
-//            (min.y + max.y) / 2,
-//            (min.z + max.z) / 2
-//        )
-//        print("Center of Skeleton: \(center)")
-//
-//        skeletonNode.position = SCNVector3(-center.x, -center.y - 1, -center.z)
 
         scene.rootNode.addChildNode(skeletonNode)
         context.coordinator.modelNode = skeletonNode
-
-        // Print the node hierarchy for debugging
-//        printNodeHierarchy(node: scene.rootNode)
-                
-//         tests if change in orientation works (it does)
-        if let Human = scene.rootNode.childNode(withName: "HumanMale", recursively: true) {
-//            print("lower back node found: \(lowerBackNode.simdOrientation)")
-//            print("lower back node found world: \(lowerBackNode.simdWorldOrientation)")
-            let lowerBackNode = Human.skinner?.skeleton?.childNode(withName: "LowerBack", recursively: true)!
-            torso3DUtil.setReferenceOrientation(orientation: lowerBackNode!.simdWorldOrientation)
-
-            
-            let midBackNode = Human.skinner?.skeleton?.childNode(withName: "MidBack", recursively: true)!
-//            midBackNode!.rotate = 0.75
-//            print("mid back: \(midBackNode?.simdWorldOrientation)")
-//
-            let upperBackNode = (Human.skinner?.skeleton?.childNode(withName: "UpperBack", recursively: true))!
-//            upperBackNode!.rotation.x = 0.75
-//            print("upper back: \(upperBackNode.simdWorldOrientation)")
-//
-//            print("Human Male: \(midBackNode.skinner?.skeleton?.childNodes)")
-            torso3DUtil.setMidBackNode(node: midBackNode!)
-            torso3DUtil.setUpperBackNode(node: upperBackNode)
-        } else {
-            print("Hips node not found")
-        }
-//        if let upperBackNode = scene.rootNode.childNode(withName: "UpperBack", recursively: true) {
-//            upperBackNode.rotation.z = 0.75
-//
-////            torso3DUtil.setNode(node: upperBackNode)
-//        } else {
-//            print("upper back node not found")
-//        }
         
+        // set nodes for live updating
+        if let Human = scene.rootNode.childNode(withName: "HumanMale", recursively: true) {
+            let lowerBackNode = Human.skinner?.skeleton?.childNode(withName: "LowerBack", recursively: true)!
+            let midBackNode = Human.skinner?.skeleton?.childNode(withName: "MidBack", recursively: true)!
+            let upperBackNode = (Human.skinner?.skeleton?.childNode(withName: "UpperBack", recursively: true))!
+            
+            modelHelper.setReferenceOrientation(orientation: lowerBackNode!.simdWorldOrientation)
+            modelHelper.setMidBackNode(node: midBackNode!)
+            modelHelper.setUpperBackNode(node: upperBackNode)
+        } else {
+            print("Human not found")
+        }
 
         print("Model loaded successfully!")
     }
