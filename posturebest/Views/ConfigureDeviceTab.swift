@@ -7,11 +7,19 @@
 
 import Foundation
 import SwiftUI
+import simd
+import CoreBluetooth
+import SceneKit
 
 struct ConfigureDeviceTab: View {
+    @StateObject private var bleManager = BLEManager()  // Use the existing BLEManager
+    @State private var showErrorAlert = false
+    @State private var orientationData: [String: simd_quatf] = [:]  // Dictionary to store quaternions
+    
     let vestConfigInfo = "Follow the steps to sync the Posture Vest to you app."
     let instructions = "1. Ensure your device is on and connected to the PostureBest app via bluetooth. \n2. Stand with your feet hip-width apart and toes pointing forward. \n3. Straighten back, neck and align shoulders to desired position. \n4. Hold position and press the configure button."
     let note = "Note: Please hold position for about 5 seconds while the device is being configured."
+    let boneNames = ["lowerBack", "midBack", "upperBack", "rightShoulder", "leftShoulder"]
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -41,11 +49,23 @@ struct ConfigureDeviceTab: View {
         
         VStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, content: {
             Button("Configure") {
-                // Save configuration data to measure other points against
+                // Check if the device is connected
+                if let connectedPeripheral = bleManager.cbPeripheral {
+                    // TODO: Add in code to save ideal orientation data
+                } else {
+                    showErrorAlert = true
+                }
             }.buttonStyle(.bordered)
+            .alert(isPresented: $showErrorAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text("Device not connected. Please make sure the Posture Vest is paired with your device."),
+                dismissButton: .default(Text("OK"))
+                                )
+                            }
         })
     }
-}
+
 
 struct ConfigureDeviceTab_Previews: PreviewProvider {
     static var previews: some View {
