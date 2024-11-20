@@ -125,8 +125,8 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         // Invalidate any existing timer
         readTimer?.invalidate()
         
-        // Reads the characteristic every 1 second (adjust as needed)
-        readTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+        // Reads the characteristic every 1 second
+        readTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             peripheral.readValue(for: characteristic)
         }
     }
@@ -139,18 +139,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         
         if characteristic.value != nil {
             sensorDataProcessor.MapSensorDataToBones(from: characteristic)
-            
-            if let UpperBackNode = modelHelper.getUpperNode() {
-                sensorDataProcessor.traverseNodes(node: UpperBackNode)
-            } else {
-                print("No UpperBackNode found.")
-            }
-            
-            if let MidBackNode = modelHelper.getMidNode() {
-                sensorDataProcessor.traverseNodes(node: MidBackNode)
-            } else {
-                print("No MidBackNode found.")
-            }
+            sensorDataProcessor.traverseNodes()
             
         } else {
             print("Characteristic value is nil.")

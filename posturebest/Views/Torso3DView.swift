@@ -54,12 +54,14 @@ struct Model3DView: UIViewRepresentable {
         scene.rootNode.addChildNode(skeletonNode)
         context.coordinator.modelNode = skeletonNode
         
+        modelHelper.setRootNode(node: skeletonNode)
+        
         // set nodes for live updating
         if let Human = scene.rootNode.childNode(withName: "HumanMale", recursively: true) {
             let lowerBackNode = Human.skinner?.skeleton?.childNode(withName: "LowerBack", recursively: true)!
             let midBackNode = Human.skinner?.skeleton?.childNode(withName: "MidBack", recursively: true)!
             let upperBackNode = (Human.skinner?.skeleton?.childNode(withName: "UpperBack", recursively: true))!
-            
+                        
             modelHelper.setReferenceOrientation(orientation: lowerBackNode!.simdWorldOrientation)
             modelHelper.setMidBackNode(node: midBackNode!)
             modelHelper.setUpperBackNode(node: upperBackNode)

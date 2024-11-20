@@ -14,18 +14,22 @@ class SensorDataProcessor {
     var orientationDictionary: [String: simd_quatf] = [:]
     var orientationAdjustments: [String: simd_quatf] = [:]
     var actualRotations: [String : simd_quatf] = [:]
-    var qReferenceOrientation: simd_quatf?
     var modelHelper = ModelHelper()
+    var sensorsCalibrated = false
 
     let boneNames = ["LowerBack", "MidBack", "UpperBack"]
+    
+    func quatToEuler(_ quat: simd_quatf) -> SIMD3<Float> {
+        let n = SCNNode()
+        n.simdOrientation = quat
+        return n.simdEulerAngles
+    }
         
-    func normalizeSensors() {
-        qReferenceOrientation = modelHelper.getReferenceOrientation()
+    func normalizeSensors(boneName: String) {
+        let qReferenceOrientation = modelHelper.getReferenceOrientation()
         
-        for (_, boneName) in boneNames.enumerated() {
-            orientationAdjustments[boneName] = qReferenceOrientation! * orientationDictionary[boneName]!.conjugate
-        }
-        
+        orientationAdjustments[boneName] = qReferenceOrientation * orientationDictionary[boneName]!.conjugate
+        orientationDictionary[boneName] = qReferenceOrientation
     }
 
     func ParseSensorData(characteristic: CBCharacteristic, numSensors: Int, totalBytes: Int, totalDoubles: Int) -> [Double]? {
@@ -74,8 +78,9 @@ class SensorDataProcessor {
                                             iz: Float(doubles![baseIndex + 3]),
                                              r: Float(doubles![baseIndex]))
                 
-                if qReferenceOrientation == nil {
+                if sensorsCalibrated == false {
                     orientationDictionary[boneName] = quaternion
+                    normalizeSensors(boneName: boneName)
                 } else {
                     orientationDictionary[boneName] = orientationAdjustments[boneName]! * quaternion
                 }
@@ -83,23 +88,43 @@ class SensorDataProcessor {
                 if index > 0 {
                     let intermediate = orientationDictionary[boneNames[index]]! * orientationDictionary[boneNames[index-1]]!.conjugate
                     
-                    let updatedRotations = simd_quatf(ix: Float(-intermediate.imag.z),
-                                                   iy: intermediate.imag.y,
-                                                   iz: Float(-intermediate.imag.x),
+                    let updatedRotations = simd_quatf(ix: intermediate.imag.z,
+                                                   iy: -intermediate.imag.y,
+                                                   iz: intermediate.imag.x,
                                                    r: intermediate.real)
                     actualRotations[boneNames[index]] = updatedRotations
                 }
             }
         }
+        sensorsCalibrated = true
+    }
 
-        if qReferenceOrientation == nil {
-            normalizeSensors()
+    func traverseNodes() {
+        var actions: [SCNAction] = []
+        
+        if let UpperBackNode = modelHelper.getUpperNode() {
+            let angle = quatToEuler(actualRotations[UpperBackNode.name!]!)
+            
+            let animation = SCNAction.rotateTo(x: CGFloat(angle.x), y: CGFloat(angle.y), z: CGFloat(angle.z), duration: 0.5)
+            let backBend = SCNAction.customAction(duration: 0.5) {
+                (node, elapsedTime) in UpperBackNode.runAction(animation)}
+            actions.append(backBend)
+        } else {
+            print("No UpperBackNode found.")
         }
+        
+        if let MidBackNode = modelHelper.getMidNode() {
+            let angle = quatToEuler(actualRotations[MidBackNode.name!]!)
+            
+            let animation = SCNAction.rotateTo(x: CGFloat(angle.x), y: CGFloat(angle.y), z: CGFloat(angle.z), duration: 0.5)
+            let backBend = SCNAction.customAction(duration: 0.5) {
+                (node, elapsedTime) in MidBackNode.runAction(animation)}
+            actions.append(backBend)
+        } else {
+            print("No MidBackNode found.")
+        }
+        
+        let rootNode = modelHelper.getRootNode()
+        rootNode?.runAction(SCNAction.sequence(actions))
     }
-
-    func traverseNodes(node: SCNNode) {
-        node.simdOrientation = actualRotations[node.name!]!
-    }
-
-
 }
