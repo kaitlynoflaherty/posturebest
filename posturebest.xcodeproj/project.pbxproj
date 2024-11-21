@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0D243C132C95E3FD00F7D657 /* InfoHover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D243C122C95E3FD00F7D657 /* InfoHover.swift */; };
 		0D243C172C95EA3200F7D657 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D243C162C95EA3200F7D657 /* LineChart.swift */; };
-		0D7117D52CE682390068E212 /* male-2.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D7117D42CE682390068E212 /* male-2.dae */; };
 		0D8810FE2CC57A5200FA9CB8 /* human_man.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D8810FD2CC57A5200FA9CB8 /* human_man.dae */; };
 		0D8811002CC57AD500FA9CB8 /* human_woman.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */; };
 		0DB7F8072CC0AF76003FAD7C /* Torso3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB7F8062CC0AF69003FAD7C /* Torso3DView.swift */; };
@@ -31,6 +30,9 @@
 		91B9F89F2CADD5E10077A28C /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F89E2CADD5E10077A28C /* BLEManager.swift */; };
 		91B9F8A32CADD6A90077A28C /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F8A22CADD6A90077A28C /* Peripheral.swift */; };
 		91B9F8A52CAEDA330077A28C /* BluetoothDevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */; };
+		91DD4C832CE68ED10063F4DC /* SensorDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DD4C822CE68ED10063F4DC /* SensorDataProcessor.swift */; };
+		91DD4C992CED107D0063F4DC /* male-new.dae in Resources */ = {isa = PBXBuildFile; fileRef = 91DD4C982CED107D0063F4DC /* male-new.dae */; };
+		91DD4C9B2CED30CF0063F4DC /* ModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DD4C9A2CED30CF0063F4DC /* ModelHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +55,6 @@
 /* Begin PBXFileReference section */
 		0D243C122C95E3FD00F7D657 /* InfoHover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoHover.swift; sourceTree = SOURCE_ROOT; };
 		0D243C162C95EA3200F7D657 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = SOURCE_ROOT; };
-		0D7117D42CE682390068E212 /* male-2.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = "male-2.dae"; sourceTree = "<group>"; };
 		0D8810FD2CC57A5200FA9CB8 /* human_man.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = human_man.dae; sourceTree = "<group>"; };
 		0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = human_woman.dae; sourceTree = "<group>"; };
 		0DB7F8062CC0AF69003FAD7C /* Torso3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Torso3DView.swift; sourceTree = "<group>"; };
@@ -78,6 +79,9 @@
 		91B9F89E2CADD5E10077A28C /* BLEManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
 		91B9F8A22CADD6A90077A28C /* Peripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
 		91B9F8A42CAEDA330077A28C /* BluetoothDevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDevicesView.swift; sourceTree = "<group>"; };
+		91DD4C822CE68ED10063F4DC /* SensorDataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorDataProcessor.swift; sourceTree = "<group>"; };
+		91DD4C982CED107D0063F4DC /* male-new.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = "male-new.dae"; sourceTree = "<group>"; };
+		91DD4C9A2CED30CF0063F4DC /* ModelHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,9 +188,9 @@
 			isa = PBXGroup;
 			children = (
 				0D8810FD2CC57A5200FA9CB8 /* human_man.dae */,
+				91DD4C982CED107D0063F4DC /* male-new.dae */,
 				91B9F8A22CADD6A90077A28C /* Peripheral.swift */,
 				0D8810FF2CC57AD500FA9CB8 /* human_woman.dae */,
-				0D7117D42CE682390068E212 /* male-2.dae */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -198,6 +202,8 @@
 				0D243C122C95E3FD00F7D657 /* InfoHover.swift */,
 				0D243C162C95EA3200F7D657 /* LineChart.swift */,
 				91B9F89E2CADD5E10077A28C /* BLEManager.swift */,
+				91DD4C822CE68ED10063F4DC /* SensorDataProcessor.swift */,
+				91DD4C9A2CED30CF0063F4DC /* ModelHelper.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -308,9 +314,9 @@
 			files = (
 				91457B472C76B856006159B6 /* Preview Assets.xcassets in Resources */,
 				0D8811002CC57AD500FA9CB8 /* human_woman.dae in Resources */,
+				91DD4C992CED107D0063F4DC /* male-new.dae in Resources */,
 				0D8810FE2CC57A5200FA9CB8 /* human_man.dae in Resources */,
 				91457B442C76B856006159B6 /* Assets.xcassets in Resources */,
-				0D7117D52CE682390068E212 /* male-2.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +346,7 @@
 				91457B4C2C76B856006159B6 /* posturebest.xcdatamodeld in Sources */,
 				91457B492C76B856006159B6 /* Persistence.swift in Sources */,
 				9104514B2C88AE4F00C96CFE /* HomeView.swift in Sources */,
+				91DD4C832CE68ED10063F4DC /* SensorDataProcessor.swift in Sources */,
 				0DB7F8072CC0AF76003FAD7C /* Torso3DView.swift in Sources */,
 				0D243C172C95EA3200F7D657 /* LineChart.swift in Sources */,
 				91B9F89F2CADD5E10077A28C /* BLEManager.swift in Sources */,
@@ -348,6 +355,7 @@
 				91457B422C76B852006159B6 /* ContentView.swift in Sources */,
 				91480EB02C988F260099A942 /* ConfigureAlertsTab.swift in Sources */,
 				91457B402C76B852006159B6 /* posturebestApp.swift in Sources */,
+				91DD4C9B2CED30CF0063F4DC /* ModelHelper.swift in Sources */,
 				9104514D2C88AE6600C96CFE /* ConfigurationsView.swift in Sources */,
 				9161B4292C91FFA500B24C20 /* ColorExtensions.swift in Sources */,
 				91480EAE2C988EFB0099A942 /* ConfigureDeviceTab.swift in Sources */,
@@ -514,7 +522,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"posturebest/Preview Content\"";
-				DEVELOPMENT_TEAM = RC2882DXXQ;
+				DEVELOPMENT_TEAM = P39M67XVHS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
@@ -545,7 +553,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"posturebest/Preview Content\"";
-				DEVELOPMENT_TEAM = RC2882DXXQ;
+				DEVELOPMENT_TEAM = P39M67XVHS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";

@@ -7,9 +7,14 @@
 
 import Foundation
 import CoreBluetooth
+import simd
 
 class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeripheralDelegate {
+    var sensorDataProcessor = SensorDataProcessor()
+    var modelHelper = ModelHelper()
     var myCentral: CBCentralManager!
+    var readTimer: Timer?
+    
     @Published var isSwitchedOn = false
     @Published var periperals = [Peripheral]() // stores discovered periphs
     @Published var connectedPeripheralUUID: UUID?
@@ -98,7 +103,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         if let services = peripheral.services {
             for service in services {
                 print("Discovered service: \(service)")
-                peripheral.discoverCharacteristics(nil, for: service) // Discover characteristics for service
+                peripheral.discoverCharacteristics(nil, for: service)
             }
         }
     }
@@ -106,27 +111,36 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     // Delegate method for when characteristics discovered on service
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         if let characteristics = service.characteristics {
-            for characteristic in characteristics {
-                if characteristic.properties.contains(.read) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        peripheral.readValue(for: characteristic)
-                    }
-                    print("Discovered characteristic: \(characteristic)")
+                if characteristics[0].properties.contains(.read) {
+                    // Initial read
+                    peripheral.readValue(for: characteristics[0])
+
+                    // Periodic timer to continue reading the characteristic
+                    startPeriodicRead(for: peripheral, characteristic: characteristics[0])
                 }
-            }
         }
     }
     
-    // Delegate method to update the value field for a characteristic
+    func startPeriodicRead(for peripheral: CBPeripheral, characteristic: CBCharacteristic) {
+        // Invalidate any existing timer
+        readTimer?.invalidate()
+        
+        // Reads the characteristic every 1 second
+        readTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+            peripheral.readValue(for: characteristic)
+        }
+    }
+
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         if let error = error {
             print("Error reading characteristic: \(error.localizedDescription)")
             return
         }
         
-        if let value = characteristic.value {
-            let bytes = [UInt8](value)
-            print("Characteristic Value: \(bytes)")
+        if characteristic.value != nil {
+            sensorDataProcessor.MapSensorDataToBones(from: characteristic)
+            sensorDataProcessor.traverseNodes()
+            
         } else {
             print("Characteristic value is nil.")
         }

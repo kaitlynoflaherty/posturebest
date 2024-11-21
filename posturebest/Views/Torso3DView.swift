@@ -9,6 +9,9 @@ import SwiftUI
 import SceneKit
 
 struct Model3DView: UIViewRepresentable {
+    var sensorDataProcessor = SensorDataProcessor()
+    var bleManager = BLEManager()
+    var modelHelper = ModelHelper()
     
     func makeUIView(context: Context) -> SCNView {
         let sceneView = SCNView()
@@ -29,23 +32,8 @@ struct Model3DView: UIViewRepresentable {
         return sceneView
     }
     
-    func printNodeHierarchy(node: SCNNode, depth: Int = 0) {
-        let indentation = String(repeating: "  ", count: depth)
-        
-        // Print node details
-        print("\(indentation)Node: \(node.name ?? "Unnamed Node")")
-        print("\(indentation)  Position: \(node.position)")
-        print("\(indentation)  Rotation: \(node.rotation)")
-        print("\(indentation)  Scale: \(node.scale)")
-        
-        // Recursively print child nodes
-         for childNode in node.childNodes {
-            printNodeHierarchy(node: childNode, depth: depth + 1)
-        }
-    }
-    
     private func loadModel(into scene: SCNScene, context: Context) {
-        guard let modelScene = SCNScene(named: "male-2.dae") else {
+        guard let modelScene = SCNScene(named: "male-new.dae") else {
             print("Failed to load the model.")
             return
         }
@@ -57,24 +45,25 @@ struct Model3DView: UIViewRepresentable {
         }
         
         //Fix from upside down imported position
-        skeletonNode.eulerAngles.x = .pi
-        
-        // Calculate the bounding box and center of the skeletonNode
-        let (min, max) = skeletonNode.boundingBox
-        let center = SCNVector3(
-            (min.x + max.x) / 2,
-            (min.y + max.y) / 2,
-            (min.z + max.z) / 2
-        )
-        print("Center of Skeleton: \(center)")
-
-        skeletonNode.position = SCNVector3(-center.x, -center.y - 1, -center.z)
+        skeletonNode.eulerAngles.y = .pi
 
         scene.rootNode.addChildNode(skeletonNode)
         context.coordinator.modelNode = skeletonNode
-
-        // Print the node hierarchy for debugging
-        printNodeHierarchy(node: scene.rootNode)
+        
+        modelHelper.setRootNode(node: skeletonNode)
+        
+        // set nodes for live updating
+        if let Human = scene.rootNode.childNode(withName: "HumanMale", recursively: true) {
+            let lowerBackNode = Human.skinner?.skeleton?.childNode(withName: "LowerBack", recursively: true)!
+            let midBackNode = Human.skinner?.skeleton?.childNode(withName: "MidBack", recursively: true)!
+            let upperBackNode = Human.skinner?.skeleton?.childNode(withName: "UpperBack", recursively: true)!
+                        
+            modelHelper.setReferenceOrientation(orientation: lowerBackNode!.simdWorldOrientation)
+            modelHelper.setMidBackNode(node: midBackNode!)
+            modelHelper.setUpperBackNode(node: upperBackNode!)
+        } else {
+            print("Human not found")
+        }
 
         print("Model loaded successfully!")
     }
