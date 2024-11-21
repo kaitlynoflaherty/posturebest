@@ -32,10 +32,6 @@ struct Model3DView: UIViewRepresentable {
         return sceneView
     }
     
-    func printNodeHierarchy(node: SCNNode, depth: Int = 0) {
-        _ = String(repeating: "  ", count: depth)
-    }
-    
     private func loadModel(into scene: SCNScene, context: Context) {
         guard let modelScene = SCNScene(named: "male-new.dae") else {
             print("Failed to load the model.")
@@ -60,11 +56,11 @@ struct Model3DView: UIViewRepresentable {
         if let Human = scene.rootNode.childNode(withName: "HumanMale", recursively: true) {
             let lowerBackNode = Human.skinner?.skeleton?.childNode(withName: "LowerBack", recursively: true)!
             let midBackNode = Human.skinner?.skeleton?.childNode(withName: "MidBack", recursively: true)!
-            let upperBackNode = (Human.skinner?.skeleton?.childNode(withName: "UpperBack", recursively: true))!
+            let upperBackNode = Human.skinner?.skeleton?.childNode(withName: "UpperBack", recursively: true)!
                         
             modelHelper.setReferenceOrientation(orientation: lowerBackNode!.simdWorldOrientation)
             modelHelper.setMidBackNode(node: midBackNode!)
-            modelHelper.setUpperBackNode(node: upperBackNode)
+            modelHelper.setUpperBackNode(node: upperBackNode!)
         } else {
             print("Human not found")
         }
