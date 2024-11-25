@@ -92,7 +92,7 @@ struct Model3DView: UIViewRepresentable {
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         cameraNode.position = SCNVector3(x: 0, y: 1, z: 3)
-        cameraNode.look(at: SCNVector3(0, 0, 0))
+        cameraNode.look(at: SCNVector3(0, 1, 0))
         cameraNode.camera?.fieldOfView = 45
         scene.rootNode.addChildNode(cameraNode)
     }
