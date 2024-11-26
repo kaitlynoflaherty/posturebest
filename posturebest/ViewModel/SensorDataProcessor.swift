@@ -18,7 +18,7 @@ class SensorDataProcessor {
     var sensorsCalibrated = false
     var readings: [Date: (score: Float, graphData: [Float])] = [:]
 
-    let boneNames = ["LowerBack", "MidBack", "UpperBack"]
+    let boneNames = ["LowerBack", "MidBack", "UpperBack", "Shoulder-Right"]
     
     func quatToEuler(_ quat: simd_quatf) -> SIMD3<Float> {
         let n = SCNNode()
@@ -27,7 +27,7 @@ class SensorDataProcessor {
     }
         
     func normalizeSensors(boneName: String) {
-        let qReferenceOrientation = modelHelper.getReferenceOrientation()
+        let qReferenceOrientation = modelHelper.getReferenceOrientation(boneName: boneName)
         
         orientationAdjustments[boneName] = qReferenceOrientation * orientationDictionary[boneName]!.conjugate
         orientationDictionary[boneName] = qReferenceOrientation
@@ -65,7 +65,7 @@ class SensorDataProcessor {
     }
     
     func MapSensorDataToBones(from characteristic: CBCharacteristic) {
-        let numSensors = 3
+        let numSensors = 4
         let totalBytes = 32 * numSensors
         let totalDoubles = 4 * numSensors
         
@@ -86,7 +86,7 @@ class SensorDataProcessor {
                     orientationDictionary[boneName] = orientationAdjustments[boneName]! * quaternion
                 }
                 
-                if index > 0 {
+                if index > 0 && index < 3{
                     let intermediate = orientationDictionary[boneNames[index]]! * orientationDictionary[boneNames[index-1]]!.conjugate
                     
                     let updatedRotations = simd_quatf(ix: intermediate.imag.z,
@@ -94,6 +94,16 @@ class SensorDataProcessor {
                                                    iz: intermediate.imag.x,
                                                    r: intermediate.real)
                     actualRotations[boneNames[index]] = updatedRotations
+                } else if index > 2 {
+                    let intermediate = orientationDictionary[boneNames[index]]! * orientationDictionary[boneNames[index-1]]!.conjugate
+                    
+                    let updatedRotations = simd_quatf(ix: intermediate.imag.y,
+                                                   iy: intermediate.imag.x,
+                                                   iz: intermediate.imag.z,
+                                                   r: intermediate.real)
+                    
+                    let shoulderNormalizer = simd_quatf(real: -0.36710772, imag: SIMD3<Float>(0.5030935, -0.4599741, -0.6328925))
+                    actualRotations[boneNames[index]] = shoulderNormalizer * updatedRotations
                 }
             }
         }
@@ -102,6 +112,7 @@ class SensorDataProcessor {
 
     func traverseNodes() {
         var actions: [SCNAction] = []
+        takeReading(bones: orientationDictionary)
         
         if let UpperBackNode = modelHelper.getUpperNode() {
             let angle = quatToEuler(actualRotations[UpperBackNode.name!]!)
@@ -125,25 +136,30 @@ class SensorDataProcessor {
             print("No MidBackNode found.")
         }
         
+        if let rightShoulderNode = modelHelper.getShoulderRightNode() {
+            let angle = quatToEuler(actualRotations[rightShoulderNode.name!]!)
+            let animation = SCNAction.rotateTo(x: CGFloat(angle.x), y: CGFloat(angle.y), z: CGFloat(angle.z), duration: 0.5, usesShortestUnitArc: true)
+            let backBend = SCNAction.customAction(duration: 0.5) {
+                (node, elapsedTime) in rightShoulderNode.runAction(animation)}
+            actions.append(backBend)
+        } else {
+            print("No Shoulder.Right node found.")
+        }
+        
         let rootNode = modelHelper.getRootNode()
         rootNode?.runAction(SCNAction.sequence(actions))
     }
     
     func takeReading(bones: [String: simd_quatf]) {
-        // Calculate posture score and graph data
         let result = calculatePostureScore(bones: bones)
-        
-        // Get the current timestamp
+
         let timestamp = Date()
-        
-        // Store the score and graphData with the timestamp in the dictionary
-        readings[timestamp] = (score: result.score, graphData: result.graphData)
+        readings[timestamp] = (score: result!.score, graphData: result!.graphData)
         
         // Store readings in UserDefaults
-        saveReadingsToUserDefaults()
+//        saveReadingsToUserDefaults()
         
-        // Optionally, print the reading for debugging
-        print("Reading at \(timestamp): Score = \(result.score), Graph Data = \(result.graphData)")
+        print("Reading at \(timestamp): Score = \(result!.score), Graph Data = \(result!.graphData)")
     }
     
     func saveReadingsToUserDefaults() {
@@ -155,7 +171,6 @@ class SensorDataProcessor {
             ]
         }
         
-        // Store the array in UserDefaults
         UserDefaults.standard.set(readingsArray, forKey: "postureReadings")
     }
     
@@ -173,21 +188,18 @@ class SensorDataProcessor {
         }
     }
 
-    // Define the ideal posture angles (in radians or degrees, depending on calculation)
-    let idealSpinalStraightnessAngle: Float = 0.0 // Ideal spinal straightness angle (no curvature)
-    let idealHunchAngle: Float = 0.0 // Ideal hunch angle (no rounding)
-    let idealShoulderBalanceAngle: Float = 0.0 // Ideal shoulder angle (shoulders aligned)
+    let idealSpinalStraightnessAngle: Float = 0.0
+    let idealHunchAngle: Float = 0.0
+    let idealShoulderBalanceAngle: Float = 0.0
 
-    // Function to convert a quaternion to Euler angles (pitch, roll, yaw)
     func quaternionToEulerAngles(_ quat: simd_quatf) -> simd_float3 {
-        let m = simd_matrix4x4(quat)  // Convert quaternion to 4x4 matrix
+        let m = simd_matrix4x4(quat)
         let pitch = atan2(m[2][1], m[2][2])
         let roll  = atan2(m[2][0], sqrt(m[2][1] * m[2][1] + m[2][2] * m[2][2]))
         let yaw   = atan2(m[1][0], m[0][0])
         return simd_float3(pitch, roll, yaw)
     }
 
-    // Function to calculate the angle between two vectors
     func angleBetweenVectors(_ v1: simd_float3, _ v2: simd_float3) -> Float {
         let dotProduct = simd_dot(v1, v2)
         let magnitudeV1 = simd_length(v1)
@@ -196,56 +208,53 @@ class SensorDataProcessor {
         return acos(cosineTheta) // In radians
     }
     
-    // Function to calculate spinal straightness based on Y-axis angle between spine segments
     func calculateSpinalStraightness(bones: [String: simd_quatf]) -> Float {
-        // Extract quaternions for the relevant bones (LowerBack and MidBack or other segments)
-        guard let spineBaseQuat = bones["LowerBack"], let spineUpperQuat = bones["MidBack"] else {
-            return -1 // Return -1 if the required quaternions are not available
+        guard
+            let spineBaseQuat = bones["LowerBack"],
+                let spineMidQuat = bones["MidBack"],
+                let spineUpperQuat = bones["UpperBack"]  else {
+            return -1
         }
         
-        // Convert quaternions to Euler angles
-        let spineBaseEuler = quaternionToEulerAngles(spineBaseQuat)
-        let spineUpperEuler = quaternionToEulerAngles(spineUpperQuat)
+        let relativeLower = spineMidQuat * spineBaseQuat.conjugate
+        let relativeUpper = spineUpperQuat * spineMidQuat.conjugate
         
-        // Extract the Y-axis angles from the Euler angles
-        let spineBaseYAngle = spineBaseEuler.y // Y-axis angle (pitch)
-        let spineUpperYAngle = spineUpperEuler.y // Y-axis angle (pitch)
+        let relativeLowerEuler = quaternionToEulerAngles(relativeLower)
+        let relativeUpperEuler = quaternionToEulerAngles(relativeUpper)
         
-        // Calculate the absolute difference in the Y-axis angles (spinal straightness angle)
-        let spinalStraightnessAngle = abs(spineBaseYAngle - spineUpperYAngle)
+        let spineBaseAngle = relativeLowerEuler.z
+        let spineUpperAngle = relativeUpperEuler.z
         
-        return spinalStraightnessAngle // Spinal straightness angle in radians
+        let spinalStraightnessAngle = abs(spineBaseAngle) + abs(spineUpperAngle)
+        print("spinalStraightnessAngle: \(spinalStraightnessAngle)")
+        return spinalStraightnessAngle
     }
 
-    // Function to calculate the hunch angle considering X-axis angles from all three back sensors
     func calculateHunchAngle(bones: [String: simd_quatf]) -> Float {
-        // Extract quaternions for the relevant bones (LowerBack, MidBack, UpperBack)
+        print("bones:\(bones)")
         guard let spineBaseQuat = bones["LowerBack"],
               let spineMidQuat = bones["MidBack"],
               let spineUpperQuat = bones["UpperBack"] else {
-            return -1 // Return -1 if the required quaternions are not available
+            return -1
         }
         
-        // Convert quaternions to Euler angles
-        let spineBaseEuler = quaternionToEulerAngles(spineBaseQuat)
-        let spineMidEuler = quaternionToEulerAngles(spineMidQuat)
-        let spineUpperEuler = quaternionToEulerAngles(spineUpperQuat)
+        let relativeLower = spineMidQuat * spineBaseQuat.conjugate
+        let relativeUpper = spineUpperQuat * spineMidQuat.conjugate
         
-        // Extract the X-axis angles from the Euler angles (roll)
-        let spineBaseXAngle = spineBaseEuler.x // X-axis angle (roll)
-        let spineMidXAngle = spineMidEuler.x // X-axis angle (roll)
-        let spineUpperXAngle = spineUpperEuler.x // X-axis angle (roll)
+        let relativeLowerEuler = quaternionToEulerAngles(relativeLower)
+        let relativeUpperEuler = quaternionToEulerAngles(relativeUpper)
         
-        // Calculate the average of the X-axis angles to compute the overall hunch angle
-        let averageXAngle = (spineBaseXAngle + spineMidXAngle + spineUpperXAngle) / 3.0
+        let spineBaseAngle = relativeLowerEuler.y
+        let spineUpperAngle = relativeUpperEuler.y
         
-        return averageXAngle // Hunch angle in radians
+        let sumAngle = spineBaseAngle + spineUpperAngle
+        return sumAngle
     }
 
-    // Function to calculate the shoulder balance (as it was before, but can be adapted as needed)
     func calculateShoulderBalance(bones: [String: simd_quatf]) -> Float {
-        // Extract quaternions for the relevant bones (LeftShoulder and RightShoulder)
-        guard let shoulderLeftQuat = bones["LeftShoulder"], let shoulderRightQuat = bones["RightShoulder"], let spineUpperQuat = bones["UpperSpine"] else {
+        guard let shoulderLeftQuat = bones["Shoulder-Left"],
+                let shoulderRightQuat = bones["Shoulder-Right"],
+                let spineUpperQuat = bones["UpperBack"] else {
             return -1
         }
         
@@ -261,37 +270,34 @@ class SensorDataProcessor {
         return angleBetweenVectors(shoulderLeftVec, shoulderRightVec)
     }
 
-    // Normalize the deviation as before (no change needed here)
     func normalizeDeviation(_ activeAngle: Float, idealAngle: Float, maxDeviation: Float) -> Float {
-        // Calculate the absolute difference between the active angle and ideal angle
         let deviation = abs(activeAngle - idealAngle)
-        // Normalize to a value between 0 and 1 based on max possible deviation
         return min(deviation / maxDeviation, 1.0)
     }
 
-    // Calculate posture score (updated to use new spinal and hunch calculations)
-    func calculatePostureScore(bones: [String: simd_quatf]) -> (score: Float, graphData: [Float]) {
-        // Calculate angles for each posture section
+    func calculatePostureScore(bones: [String: simd_quatf]) -> (score: Float, graphData: [Float])? {
         let spinalStraightnessAngle = calculateSpinalStraightness(bones: bones)
         let hunchAngle = calculateHunchAngle(bones: bones)
+        print("hunchhhh: \(hunchAngle)")
         let shoulderBalanceAngle = calculateShoulderBalance(bones: bones)
         
-        // Normalize deviations from the ideal posture for each section
-        let normalizedSpinalStraightness = normalizeDeviation(spinalStraightnessAngle, idealAngle: idealSpinalStraightnessAngle, maxDeviation: 25.0)
-        let normalizedHunch = normalizeDeviation(hunchAngle, idealAngle: idealHunchAngle, maxDeviation: 25.0)
-        let normalizedShoulderBalance = normalizeDeviation(shoulderBalanceAngle, idealAngle: idealShoulderBalanceAngle, maxDeviation: 25.0)
+        if spinalStraightnessAngle == -1 || hunchAngle == -1 || shoulderBalanceAngle == -1 {
+            print("calculatePostureScore Error: angle not found")
+            return nil
+        }
+
+        let normalizedSpinalStraightness = normalizeDeviation(spinalStraightnessAngle, idealAngle: idealSpinalStraightnessAngle, maxDeviation: ((25.0 * .pi) / 180))
+        let normalizedHunch = normalizeDeviation(hunchAngle, idealAngle: idealHunchAngle, maxDeviation: ((25.0 * .pi) / 180))
+        let normalizedShoulderBalance = normalizeDeviation(shoulderBalanceAngle, idealAngle: idealShoulderBalanceAngle, maxDeviation: ((25.0 * .pi) / 180))
         
-        // Weights for each category
         let spinalStraightnessWeight: Float = 0.2
         let hunchWeight: Float = 0.4
         let shoulderBalanceWeight: Float = 0.4
         
-        // Calculate final score (weighted sum of the normalized deviations)
         let finalScore = (normalizedSpinalStraightness * spinalStraightnessWeight) +
                          (normalizedHunch * hunchWeight) +
                          (normalizedShoulderBalance * shoulderBalanceWeight)
-        
-        // Prepare graph data (normalized deviations for each category)
+
         let graphData: [Float] = [normalizedSpinalStraightness, normalizedHunch, normalizedShoulderBalance]
         
         return (finalScore, graphData)

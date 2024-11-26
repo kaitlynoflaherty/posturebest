@@ -32,8 +32,23 @@ struct Model3DView: UIViewRepresentable {
         return sceneView
     }
     
+    func printNodeHierarchy(node: SCNNode, depth: Int = 0) {
+            let indentation = String(repeating: "  ", count: depth)
+            
+            // Print node details
+            print("\(indentation)Node: \(node.name ?? "Unnamed Node")")
+            print("\(indentation)  Position: \(node.position)")
+            print("\(indentation)  Rotation: \(node.rotation)")
+            print("\(indentation)  Scale: \(node.scale)")
+            
+            // Recursively print child nodes
+             for childNode in node.childNodes {
+                printNodeHierarchy(node: childNode, depth: depth + 1)
+            }
+        }
+    
     private func loadModel(into scene: SCNScene, context: Context) {
-        guard let modelScene = SCNScene(named: "male-new.dae") else {
+        guard let modelScene = SCNScene(named: "male.dae") else {
             print("Failed to load the model.")
             return
         }
@@ -57,13 +72,33 @@ struct Model3DView: UIViewRepresentable {
             let lowerBackNode = Human.skinner?.skeleton?.childNode(withName: "LowerBack", recursively: true)!
             let midBackNode = Human.skinner?.skeleton?.childNode(withName: "MidBack", recursively: true)!
             let upperBackNode = Human.skinner?.skeleton?.childNode(withName: "UpperBack", recursively: true)!
-                        
-            modelHelper.setReferenceOrientation(orientation: lowerBackNode!.simdWorldOrientation)
+            let shoulderRightNode = Human.skinner?.skeleton?.childNode(withName: "Shoulder-Right", recursively: true)!
+            let shoulderLeftNode = Human.skinner?.skeleton?.childNode(withName: "Shoulder-Left", recursively: true)!
+
+            modelHelper.setReferenceOrientation(boneName: "LowerBack", orientation: lowerBackNode!.simdWorldOrientation)
+            modelHelper.setReferenceOrientation(boneName: "MidBack", orientation: midBackNode!.simdWorldOrientation)
+            modelHelper.setReferenceOrientation(boneName: "UpperBack", orientation: upperBackNode!.simdWorldOrientation)
+            modelHelper.setReferenceOrientation(boneName: "Shoulder-Right", orientation: shoulderRightNode!.simdWorldOrientation)
+            
+            print("shoulder orientation\(shoulderRightNode!.simdOrientation)")
+            
+            let two = shoulderRightNode!.simdWorldOrientation * (upperBackNode?.simdWorldOrientation.conjugate)!
+            print("after math: \(two)")
+            
+            let newTwo = simd_quatf(ix: two.imag.y, iy: two.imag.x, iz: two.imag.z, r: two.real)
+            let three = shoulderRightNode!.simdOrientation * newTwo.conjugate
+            print("after math three: \(three)")
+            
+            
+            
             modelHelper.setMidBackNode(node: midBackNode!)
             modelHelper.setUpperBackNode(node: upperBackNode!)
+            modelHelper.setShoulderRightNode(node: shoulderRightNode!)
         } else {
             print("Human not found")
         }
+
+//        printNodeHierarchy(node: scene.rootNode)
 
         print("Model loaded successfully!")
     }

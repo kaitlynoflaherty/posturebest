@@ -13,7 +13,8 @@ class ModelHelper {
     static var rootNode: SCNNode?
     static var upperNode: SCNNode?
     static var midNode: SCNNode?
-    static var referenceOrientation: simd_quatf?
+    static var shoulderRight: SCNNode?
+    static var referenceOrientations: [String : simd_quatf] = [:]
         
         init() {
             node = SCNNode()
@@ -33,6 +34,14 @@ class ModelHelper {
             let clonedNode = node
             ModelHelper.midNode = clonedNode
         }
+        func setShoulderRightNode(node: SCNNode) {
+            let clonedNode = node
+            ModelHelper.shoulderRight = clonedNode
+        }
+
+        func getShoulderRightNode() -> SCNNode? {
+            return ModelHelper.shoulderRight
+        }
     
         func getRootNode() -> SCNNode? {
             return ModelHelper.rootNode
@@ -47,13 +56,13 @@ class ModelHelper {
         }
 
         
-        func setReferenceOrientation(orientation: simd_quatf) {
-            let referenceOrientation = orientation
-            ModelHelper.referenceOrientation = referenceOrientation
+    func setReferenceOrientation(boneName: String, orientation: simd_quatf) {
+        let referenceOrientation = orientation
+        ModelHelper.referenceOrientations[boneName] = referenceOrientation
         }
 
-        func getReferenceOrientation() -> simd_quatf {
-            return ModelHelper.referenceOrientation!
+    func getReferenceOrientation(boneName: String) -> simd_quatf {
+        return ModelHelper.referenceOrientations[boneName]!
         }
 }
 
