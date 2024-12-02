@@ -18,7 +18,7 @@ class SensorDataProcessor {
     var sensorsCalibrated = false
     var readings: [Date: (score: Float, graphData: [Float])] = [:]
 
-    let boneNames = ["LowerBack", "MidBack", "UpperBack", "Shoulder-Right"]
+    let boneNames = ["LowerBack", "MidBack", "UpperBack", "Shoulder-Right", "Shoulder-Left"]
     
     func quatToEuler(_ quat: simd_quatf) -> SIMD3<Float> {
         let n = SCNNode()
@@ -65,7 +65,7 @@ class SensorDataProcessor {
     }
     
     func MapSensorDataToBones(from characteristic: CBCharacteristic) {
-        let numSensors = 4
+        let numSensors = 5
         let totalBytes = 32 * numSensors
         let totalDoubles = 4 * numSensors
         
@@ -95,16 +95,27 @@ class SensorDataProcessor {
                                                    r: intermediate.real)
                     actualRotations[boneNames[index]] = updatedRotations
                 } else if index > 2 {
-                    let intermediate = orientationDictionary[boneNames[index]]! * orientationDictionary[boneNames[index-1]]!.conjugate
+                    let intermediate = orientationDictionary[boneNames[index]]! * orientationDictionary[boneNames[2]]!.conjugate
                     
                     let updatedRotations = simd_quatf(ix: intermediate.imag.y,
                                                    iy: intermediate.imag.x,
                                                    iz: intermediate.imag.z,
                                                    r: intermediate.real)
                     
-                    let shoulderNormalizer = simd_quatf(real: -0.36710772, imag: SIMD3<Float>(0.5030935, -0.4599741, -0.6328925))
+                    let shoulderNormalizer = index == 3 ? simd_quatf(real: -0.36710772, imag: SIMD3<Float>(0.5030935, -0.4599741, -0.6328925)) :  simd_quatf(real: -0.36710766, imag: SIMD3<Float>(-0.45997414, 0.5030936, -0.6328923))
                     actualRotations[boneNames[index]] = shoulderNormalizer * updatedRotations
                 }
+//                else if index == 4 {
+//                    let intermediate = orientationDictionary[boneNames[index]]! * orientationDictionary[boneNames[index-1]]!.conjugate
+//                    
+//                    let updatedRotations = simd_quatf(ix: intermediate.imag.y,
+//                                                   iy: intermediate.imag.x,
+//                                                   iz: intermediate.imag.z,
+//                                                   r: intermediate.real)
+//                    
+//                    let shoulderNormalizer = simd_quatf(real: -0.36710766, imag: SIMD3<Float>(-0.45997414, 0.5030936, -0.6328923))
+//                    actualRotations[boneNames[index]] = shoulderNormalizer * updatedRotations
+//                }
             }
         }
         sensorsCalibrated = true
@@ -146,6 +157,16 @@ class SensorDataProcessor {
             print("No Shoulder.Right node found.")
         }
         
+        if let leftShoulderNode = modelHelper.getShoulderLeftNode() {
+            let angle = quatToEuler(actualRotations[leftShoulderNode.name!]!)
+            let animation = SCNAction.rotateTo(x: CGFloat(angle.x), y: CGFloat(angle.y), z: CGFloat(angle.z), duration: 0.5, usesShortestUnitArc: true)
+            let backBend = SCNAction.customAction(duration: 0.5) {
+                (node, elapsedTime) in leftShoulderNode.runAction(animation)}
+            actions.append(backBend)
+        } else {
+            print("No Shoulder.Left node found.")
+        }
+        
         let rootNode = modelHelper.getRootNode()
         rootNode?.runAction(SCNAction.sequence(actions))
     }
@@ -154,12 +175,12 @@ class SensorDataProcessor {
         let result = calculatePostureScore(bones: bones)
 
         let timestamp = Date()
-        readings[timestamp] = (score: result!.score, graphData: result!.graphData)
+//        readings[timestamp] = (score: result!.score, graphData: result!.graphData)
         
         // Store readings in UserDefaults
 //        saveReadingsToUserDefaults()
         
-        print("Reading at \(timestamp): Score = \(result!.score), Graph Data = \(result!.graphData)")
+//        print("Reading at \(timestamp): Score = \(result!.score), Graph Data = \(result!.graphData)")
     }
     
     func saveReadingsToUserDefaults() {
@@ -396,7 +417,7 @@ class SensorDataProcessor {
     // Example usage with bone data (mock data)
 //    let mockBones: [String: simd_quatf] = [
 //        "spine_base": simd_quatf(angle: 0.1, axis: simd_float3(1, 0, 0)), // Spine base quaternion
-//        "spine_upper": simd_quatf(angle: 0.2, axis: simd_float3(1, 0, 0)), // Spine upper quaternion
+//        "spine_upper": simd_quatf(angle: 0.2, axis: simd_float3(1, 0, 0)), // Spine upper quaternionhi
 //        "shoulder_left": simd_quatf(angle: 0.3, axis: simd_float3(1, 0, 0)), // Left shoulder quaternion
 //        "shoulder_right": simd_quatf(angle: 0.4, axis: simd_float3(1, 0, 0)) // Right shoulder quaternion
 //    ]

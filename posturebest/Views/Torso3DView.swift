@@ -79,21 +79,21 @@ struct Model3DView: UIViewRepresentable {
             modelHelper.setReferenceOrientation(boneName: "MidBack", orientation: midBackNode!.simdWorldOrientation)
             modelHelper.setReferenceOrientation(boneName: "UpperBack", orientation: upperBackNode!.simdWorldOrientation)
             modelHelper.setReferenceOrientation(boneName: "Shoulder-Right", orientation: shoulderRightNode!.simdWorldOrientation)
+            modelHelper.setReferenceOrientation(boneName: "Shoulder-Left", orientation: shoulderLeftNode!.simdWorldOrientation)
             
-            print("shoulder orientation\(shoulderRightNode!.simdOrientation)")
+            print("shoulder left orientation\(shoulderLeftNode!.simdOrientation)")
             
-            let two = shoulderRightNode!.simdWorldOrientation * (upperBackNode?.simdWorldOrientation.conjugate)!
+            let two = shoulderLeftNode!.simdWorldOrientation * (upperBackNode?.simdWorldOrientation.conjugate)!
             print("after math: \(two)")
             
             let newTwo = simd_quatf(ix: two.imag.y, iy: two.imag.x, iz: two.imag.z, r: two.real)
-            let three = shoulderRightNode!.simdOrientation * newTwo.conjugate
+            let three = shoulderLeftNode!.simdOrientation * newTwo.conjugate
             print("after math three: \(three)")
-            
-            
             
             modelHelper.setMidBackNode(node: midBackNode!)
             modelHelper.setUpperBackNode(node: upperBackNode!)
             modelHelper.setShoulderRightNode(node: shoulderRightNode!)
+            modelHelper.setShoulderLeftNode(node: shoulderLeftNode!)
         } else {
             print("Human not found")
         }
