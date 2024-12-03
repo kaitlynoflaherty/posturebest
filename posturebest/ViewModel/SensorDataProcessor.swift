@@ -95,14 +95,19 @@ class SensorDataProcessor {
                                                    r: intermediate.real)
                     actualRotations[boneNames[index]] = updatedRotations
                 } else if index > 2 {
-                    let intermediate = orientationDictionary[boneNames[index]]! * orientationDictionary[boneNames[2]]!.conjugate
+                    let intermediate = orientationDictionary[boneNames[index]]! * orientationDictionary["UpperBack"]!.conjugate
                     
-                    let updatedRotations = simd_quatf(ix: intermediate.imag.y,
-                                                   iy: intermediate.imag.x,
+                    let updatedRotations = index == 3 ? simd_quatf(ix: intermediate.imag.x,
+                                                                   iy: intermediate.imag.y,
                                                    iz: intermediate.imag.z,
                                                    r: intermediate.real)
+                                        : simd_quatf(ix: -intermediate.imag.x,
+                                                     iy: intermediate.imag.y,
+                                                     iz: intermediate.imag.z,
+                                                     r: -intermediate.real)
                     
-                    let shoulderNormalizer = index == 3 ? simd_quatf(real: -0.36710772, imag: SIMD3<Float>(0.5030935, -0.4599741, -0.6328925)) :  simd_quatf(real: -0.36710766, imag: SIMD3<Float>(-0.45997414, 0.5030936, -0.6328923))
+                    let shoulderNormalizer = index == 3 ? simd_quatf(real: -0.12369983, imag: SIMD3<Float>(-0.4146454, -0.68663114, 0.5842135)) : simd_quatf(real: 0.80379933, imag: SIMD3<Float>(-0.41464525, 0.27643642, 0.3248983))
+//                    let shoulderNormalizer = index == 3 ? simd_quatf(real: -0.3781915, imag: SIMD3<Float>(0.4931844, -0.36864042, -0.6912632)) : simd_quatf(real: 0.2757737, imag: SIMD3<Float>(0.51834506, -0.49200976, 0.6428015))
                     actualRotations[boneNames[index]] = shoulderNormalizer * updatedRotations
                 }
 //                else if index == 4 {
@@ -175,12 +180,12 @@ class SensorDataProcessor {
         let result = calculatePostureScore(bones: bones)
 
         let timestamp = Date()
-//        readings[timestamp] = (score: result!.score, graphData: result!.graphData)
+        readings[timestamp] = (score: result!.score, graphData: result!.graphData)
         
-        // Store readings in UserDefaults
-//        saveReadingsToUserDefaults()
+//         Store readings in UserDefaults
+        saveReadingsToUserDefaults()
         
-//        print("Reading at \(timestamp): Score = \(result!.score), Graph Data = \(result!.graphData)")
+        print("Reading at \(timestamp): Score = \(result!.score), Graph Data = \(result!.graphData)")
     }
     
     func saveReadingsToUserDefaults() {

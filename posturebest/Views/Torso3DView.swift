@@ -81,12 +81,12 @@ struct Model3DView: UIViewRepresentable {
             modelHelper.setReferenceOrientation(boneName: "Shoulder-Right", orientation: shoulderRightNode!.simdWorldOrientation)
             modelHelper.setReferenceOrientation(boneName: "Shoulder-Left", orientation: shoulderLeftNode!.simdWorldOrientation)
             
-            print("shoulder left orientation\(shoulderLeftNode!.simdOrientation)")
+            print("shoulder right orientation\(shoulderLeftNode!.simdOrientation)")
             
             let two = shoulderLeftNode!.simdWorldOrientation * (upperBackNode?.simdWorldOrientation.conjugate)!
             print("after math: \(two)")
             
-            let newTwo = simd_quatf(ix: two.imag.y, iy: two.imag.x, iz: two.imag.z, r: two.real)
+            let newTwo = simd_quatf(ix: -two.imag.x, iy: two.imag.y, iz: two.imag.z, r: -two.real)
             let three = shoulderLeftNode!.simdOrientation * newTwo.conjugate
             print("after math three: \(three)")
             
