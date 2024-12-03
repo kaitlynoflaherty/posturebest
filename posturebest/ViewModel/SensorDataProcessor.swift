@@ -107,20 +107,8 @@ class SensorDataProcessor {
                                                      r: -intermediate.real)
                     
                     let shoulderNormalizer = index == 3 ? simd_quatf(real: -0.12369983, imag: SIMD3<Float>(-0.4146454, -0.68663114, 0.5842135)) : simd_quatf(real: 0.80379933, imag: SIMD3<Float>(-0.41464525, 0.27643642, 0.3248983))
-//                    let shoulderNormalizer = index == 3 ? simd_quatf(real: -0.3781915, imag: SIMD3<Float>(0.4931844, -0.36864042, -0.6912632)) : simd_quatf(real: 0.2757737, imag: SIMD3<Float>(0.51834506, -0.49200976, 0.6428015))
                     actualRotations[boneNames[index]] = shoulderNormalizer * updatedRotations
                 }
-//                else if index == 4 {
-//                    let intermediate = orientationDictionary[boneNames[index]]! * orientationDictionary[boneNames[index-1]]!.conjugate
-//                    
-//                    let updatedRotations = simd_quatf(ix: intermediate.imag.y,
-//                                                   iy: intermediate.imag.x,
-//                                                   iz: intermediate.imag.z,
-//                                                   r: intermediate.real)
-//                    
-//                    let shoulderNormalizer = simd_quatf(real: -0.36710766, imag: SIMD3<Float>(-0.45997414, 0.5030936, -0.6328923))
-//                    actualRotations[boneNames[index]] = shoulderNormalizer * updatedRotations
-//                }
             }
         }
         sensorsCalibrated = true
@@ -182,7 +170,7 @@ class SensorDataProcessor {
         let timestamp = Date()
         readings[timestamp] = (score: result!.score, graphData: result!.graphData)
         
-//         Store readings in UserDefaults
+        //Store readings in UserDefaults
         saveReadingsToUserDefaults()
         
         print("Reading at \(timestamp): Score = \(result!.score), Graph Data = \(result!.graphData)")
@@ -291,7 +279,7 @@ class SensorDataProcessor {
         
         let shoulderLeftVec = simd_float3(shoulderLeftEuler.x, shoulderLeftEuler.y, shoulderLeftEuler.z)
         let shoulderRightVec = simd_float3(shoulderRightEuler.x, shoulderRightEuler.y, shoulderRightEuler.z)
-        let spineUpperVec = simd_float3(spineUpperEuler.x, spineUpperEuler.y, spineUpperEuler.z)
+        _ = simd_float3(spineUpperEuler.x, spineUpperEuler.y, spineUpperEuler.z)
         
         return angleBetweenVectors(shoulderLeftVec, shoulderRightVec)
     }
@@ -328,108 +316,4 @@ class SensorDataProcessor {
         
         return (finalScore, graphData)
     }
-    
-
-//    // Function to calculate spinal straightness
-//    func calculateSpinalStraightness(bones: [String: simd_quatf]) -> Float {
-//        // Extract quaternions for the relevant bones
-//        guard let spineBaseQuat = bones["LowerBack"], let spineUpperQuat = bones["MidBack"] else {
-//            return -1 // maybe take this out....
-//        }
-//        
-//        // Convert quaternions to Euler angles
-//        let spineBaseEuler = quaternionToEulerAngles(spineBaseQuat)
-//        let spineUpperEuler = quaternionToEulerAngles(spineUpperQuat)
-//        
-//        let spineBaseVec = simd_float3(spineBaseEuler.x, spineBaseEuler.y, spineBaseEuler.z)
-//        let spineUpperVec = simd_float3(spineUpperEuler.x, spineUpperEuler.y, spineUpperEuler.z)
-//        
-//        return angleBetweenVectors(spineBaseVec, spineUpperVec) // Spinal straightness angle
-//    }
-//
-//    // Function to calculate the hunch angle
-//    func calculateHunchAngle(bones: [String: simd_quatf]) -> Float {
-//        // Extract quaternions for the relevant bones
-//        guard let shoulderLeftQuat = bones["LeftShoulder"], let shoulderRightQuat = bones["RightShoulder"] else {
-//            return -1
-//        }
-//        
-//        // Convert quaternions to Euler angles
-//        let shoulderLeftEuler = quaternionToEulerAngles(shoulderLeftQuat)
-//        let shoulderRightEuler = quaternionToEulerAngles(shoulderRightQuat)
-//        
-//        let shoulderLeftVec = simd_float3(shoulderLeftEuler.x, shoulderLeftEuler.y, shoulderLeftEuler.z)
-//        let shoulderRightVec = simd_float3(shoulderRightEuler.x, shoulderRightEuler.y, shoulderRightEuler.z)
-//        
-//        return angleBetweenVectors(shoulderLeftVec, shoulderRightVec) // Hunch angle
-//    }
-//
-//    // Function to calculate shoulder balance
-//    func calculateShoulderBalance(bones: [String: simd_quatf]) -> Float {
-//        // Extract quaternions for the relevant bones
-//        guard let shoulderLeftQuat = bones["LeftShoulder"], let shoulderRightQuat = bones["RightShoulder"], let spineUpperQuat = bones["UpperSpine"] else {
-//            return -1
-//        }
-//        
-//        // Convert quaternions to Euler angles
-//        let shoulderLeftEuler = quaternionToEulerAngles(shoulderLeftQuat)
-//        let shoulderRightEuler = quaternionToEulerAngles(shoulderRightQuat)
-//        let spineUpperEuler = quaternionToEulerAngles(spineUpperQuat)
-//        
-//        let shoulderLeftVec = simd_float3(shoulderLeftEuler.x, shoulderLeftEuler.y, shoulderLeftEuler.z)
-//        let shoulderRightVec = simd_float3(shoulderRightEuler.x, shoulderRightEuler.y, shoulderRightEuler.z)
-//        let spineUpperVec = simd_float3(spineUpperEuler.x, spineUpperEuler.y, spineUpperEuler.z)
-//        
-//        return angleBetweenVectors(shoulderLeftVec, shoulderRightVec)
-//    }
-//
-//    // Function to normalize the angle deviation from ideal
-//    func normalizeDeviation(_ activeAngle: Float, idealAngle: Float, maxDeviation: Float) -> Float {
-//        // Calculate the absolute difference between the active angle and ideal angle
-//        let deviation = abs(activeAngle - idealAngle)
-//        // Normalize to a value between 0 and 1 based on max possible deviation
-//        return min(deviation / maxDeviation, 1.0)
-//    }
-//
-//    // Function to calculate the posture score based on active posture compared to ideal posture
-//    func calculatePostureScore(bones: [String: simd_quatf]) -> (score: Float, graphData: [Float]) {
-//        // Calculate angles for each posture section
-//        let spinalStraightnessAngle = calculateSpinalStraightness(bones: bones)
-//        let hunchAngle = calculateHunchAngle(bones: bones)
-//        let shoulderBalanceAngle = calculateShoulderBalance(bones: bones)
-//        
-//        // Normalize deviations from the ideal posture for each section
-//        let normalizedSpinalStraightness = normalizeDeviation(spinalStraightnessAngle, idealAngle: idealSpinalStraightnessAngle, maxDeviation: 25.0)
-//        let normalizedHunch = normalizeDeviation(hunchAngle, idealAngle: idealHunchAngle, maxDeviation: 25.0)
-//        let normalizedShoulderBalance = normalizeDeviation(shoulderBalanceAngle, idealAngle: idealShoulderBalanceAngle, maxDeviation: 25.0)
-//        
-//        // Weights for each category
-//        let spinalStraightnessWeight: Float = 0.2
-//        let hunchWeight: Float = 0.4
-//        let shoulderBalanceWeight: Float = 0.4
-//        
-//        // Calculate final score (weighted sum of the normalized deviations)
-//        let finalScore = (normalizedSpinalStraightness * spinalStraightnessWeight) +
-//                         (normalizedHunch * hunchWeight) +
-//                         (normalizedShoulderBalance * shoulderBalanceWeight)
-//        
-//        // Prepare graph data (normalized deviations for each category)
-//        let graphData: [Float] = [normalizedSpinalStraightness, normalizedHunch, normalizedShoulderBalance]
-//        
-//        return (finalScore, graphData)
-//    }
-
-    // Example usage with bone data (mock data)
-//    let mockBones: [String: simd_quatf] = [
-//        "spine_base": simd_quatf(angle: 0.1, axis: simd_float3(1, 0, 0)), // Spine base quaternion
-//        "spine_upper": simd_quatf(angle: 0.2, axis: simd_float3(1, 0, 0)), // Spine upper quaternionhi
-//        "shoulder_left": simd_quatf(angle: 0.3, axis: simd_float3(1, 0, 0)), // Left shoulder quaternion
-//        "shoulder_right": simd_quatf(angle: 0.4, axis: simd_float3(1, 0, 0)) // Right shoulder quaternion
-//    ]
-
-//    let result = calculatePostureScore(bones: mockBones)
-//    print("Posture Score: \(result.score)") // Weighted score
-//    print("Graph Data: \(result.graphData)") // Angles for graph
-
-
 }
