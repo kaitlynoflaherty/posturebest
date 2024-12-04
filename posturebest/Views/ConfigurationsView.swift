@@ -1,49 +1,29 @@
-//
-//  ConfigurationsView.swift
-//  posturebest
-//
-//  Created by Kaitlyn O’Flaherty on 9/4/24.
-//
-
 import SwiftUI
 
 struct MetricsView: View {
     let deviceName: String
-    let tabOptions = ["Goal Tracking", "Configure Device"]
-    @State private var tabState: String = "Goal Tracking"
     
     var body: some View {
         VStack {
+            // Header Section
             VStack {
                 Text("Metrics")
                     .font(.largeTitle)
                     .foregroundStyle(Color(hex: "#374663"))
                     .padding()
-                
-                Text("Configure \(deviceName)")
+
+                Text("Tracking Goals for \(deviceName)")
                     .foregroundStyle(Color(hex: "#374663"))
-                
-                Picker("Select an option", selection: $tabState) {
-                    ForEach(tabOptions, id: \.self) { option in
-                        Text(option).tag(option).foregroundStyle(Color(hex: "#374663"))
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
+                    .padding(.bottom)
             }
             
-            VStack() {
-                if tabState == "Configure Device" {
-                    ConfigureDeviceTab()
-                } else {
-                    ConfigureAlertsTab()
-                }
-                
-                Spacer()
-            }
-            .navigationTitle("Metrics")
-            .background(Color.white.ignoresSafeArea())
+            // Goal Tracking Section (Previously ConfigureAlertsTab)
+            ConfigureAlertsTab() // Assuming this is the view for goal tracking
+
+            Spacer()
         }
+        .navigationTitle("Metrics")
+        .background(Color.white.ignoresSafeArea())
     }
 }
 

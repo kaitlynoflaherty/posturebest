@@ -45,9 +45,9 @@ struct UserProfileView: View {
                         NavigationLink(destination: BluetoothDevicesView(showHeader: $showHeader)) {
                             Text("Connect to Bluetooth Device")
                         }
-//                        NavigationLink(destination: AccountInformationView(showHeader: $showHeader)) {
-//                            Text("Account Information")
-//                        }
+                        NavigationLink(destination: ConfigureDeviceTab(showHeader: $showHeader)) {
+                            Text("Account Information")
+                        }
 //                        NavigationLink(destination: AppSettings(showHeader: $showHeader)) {
 //                            Text("App Settings")
 //                        }

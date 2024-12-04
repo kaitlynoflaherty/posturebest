@@ -91,32 +91,37 @@ import SwiftUI
 
 struct ConfigureAlertsTab: View {
     
-    // Sample data for chart
-    
-    // TODO: Add in data pulled per minute to calculate score
-    let chartData: [ChartData] = [
-        ChartData(x: 1, y: 10),
-        ChartData(x: 2, y: 20),
-        ChartData(x: 3, y: 15),
-        ChartData(x: 4, y: 25),
-        ChartData(x: 5, y: 30)
+    // Sample data for the chart: date keys and scores
+    let chartData: [Date: (shoulderScore: Double, backScore: Double, spinalStraightness: Double)] = [
+        Date().addingTimeInterval(-3600): (shoulderScore: 20, backScore: 25, spinalStraightness: 70),
+        Date().addingTimeInterval(-7200): (shoulderScore: 30, backScore: 55, spinalStraightness: 20),
+        Date().addingTimeInterval(-10800): (shoulderScore: 25, backScore: 20, spinalStraightness: 30),
+        Date().addingTimeInterval(-14400): (shoulderScore: 40, backScore: 45, spinalStraightness: 20),
+        
+        // Data from yesterday (1 day ago)
+        Date().addingTimeInterval(-86400): (shoulderScore: 60, backScore: 95, spinalStraightness: 40),
+        Date().addingTimeInterval(-82800): (shoulderScore: 50, backScore: 55, spinalStraightness: 20),
+        
+        // Data from 2 days ago
+        Date().addingTimeInterval(-172800): (shoulderScore: 90, backScore: 85, spinalStraightness: 70),
     ]
     
     var body: some View {
-        VStack {
-            Text("Progress Tracker")
-                .font(.headline)
-                .padding()
-            
-            LineChart(data: chartData)
-            
-            Spacer(minLength: 20)
-            
+        ScrollView {
+            VStack {
+                
+                // Pass the chartData dictionary to the LineChart component
+                LineChart(scores: chartData) // Using the data dictionary here
+                
+                Spacer(minLength: 20)
+                
+                // Add more content here if needed
+            }
+            .padding()
         }
         .navigationTitle("Home")
         .background(Color.white.ignoresSafeArea())
     }
-    
 }
 
 struct ConfigureAlertsTab_Previews: PreviewProvider {
