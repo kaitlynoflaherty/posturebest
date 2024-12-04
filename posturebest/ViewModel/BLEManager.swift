@@ -139,8 +139,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         
         if characteristic.value != nil {
             sensorDataProcessor.MapSensorDataToBones(from: characteristic)
-            sensorDataProcessor.traverseNodes()
-            
+            sensorDataProcessor.traverseNodes()            
             
         } else {
             print("Characteristic value is nil.")

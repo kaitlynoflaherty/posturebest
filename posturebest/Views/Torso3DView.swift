@@ -81,14 +81,16 @@ struct Model3DView: UIViewRepresentable {
             modelHelper.setReferenceOrientation(boneName: "Shoulder-Right", orientation: shoulderRightNode!.simdWorldOrientation)
             modelHelper.setReferenceOrientation(boneName: "Shoulder-Left", orientation: shoulderLeftNode!.simdWorldOrientation)
             
-            print("shoulder right orientation\(shoulderLeftNode!.simdOrientation)")
+//            print("shoulder right orientation\(shoulderLeftNode!.simdOrientation)")
             
-            let two = shoulderLeftNode!.simdWorldOrientation * (upperBackNode?.simdWorldOrientation.conjugate)!
-            print("after math: \(two)")
+//            let two = shoulderLeftNode!.simdWorldOrientation * (upperBackNode?.simdWorldOrientation.conjugate)!
+//            print("after math: \(two)")
             
-            let newTwo = simd_quatf(ix: -two.imag.x, iy: two.imag.y, iz: two.imag.z, r: -two.real)
-            let three = shoulderLeftNode!.simdOrientation * newTwo.conjugate
-            print("after math three: \(three)")
+//            let newTwo = simd_quatf(ix: two.imag.x, iy: two.imag.y, iz: two.imag.z, r: two.real)
+//            let three = shoulderLeftNode!.simdOrientation * newTwo.conjugate
+//            print("after math three: \(three)")
+            
+//            shoulderLeftNode!.simdOrientation = simd_quatf(ix: 0.707, iy: 0, iz: 0, r: 0.707) * shoulderLeftNode!.simdOrientation
             
             modelHelper.setMidBackNode(node: midBackNode!)
             modelHelper.setUpperBackNode(node: upperBackNode!)

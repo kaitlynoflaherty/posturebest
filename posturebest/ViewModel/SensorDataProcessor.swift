@@ -101,12 +101,15 @@ class SensorDataProcessor {
                                                                    iy: intermediate.imag.y,
                                                    iz: intermediate.imag.z,
                                                    r: intermediate.real)
-                                        : simd_quatf(ix: -intermediate.imag.x,
+                                        : simd_quatf(ix: intermediate.imag.x,
                                                      iy: intermediate.imag.y,
                                                      iz: intermediate.imag.z,
-                                                     r: -intermediate.real)
+                                                     r: intermediate.real)
                     
-                    let shoulderNormalizer = index == 3 ? simd_quatf(real: -0.12369983, imag: SIMD3<Float>(-0.4146454, -0.68663114, 0.5842135)) : simd_quatf(real: 0.80379933, imag: SIMD3<Float>(-0.41464525, 0.27643642, 0.3248983))
+                    print(boneNames[index])
+                    print(updatedRotations)
+                    
+                    let shoulderNormalizer = index == 3 ? simd_quatf(real: -0.12369983, imag: SIMD3<Float>(-0.4146454, -0.68663114, 0.5842135)) : simd_quatf(real: 0.12369995, imag: SIMD3<Float>(0.41464525, -0.6866312, 0.58421344))
                     actualRotations[boneNames[index]] = shoulderNormalizer * updatedRotations
                 }
             }
@@ -185,6 +188,8 @@ class SensorDataProcessor {
             ]
         }
         
+        print("readingsArray: \(readingsArray)")
+        
         UserDefaults.standard.set(readingsArray, forKey: "postureReadings")
     }
     
@@ -199,6 +204,7 @@ class SensorDataProcessor {
                     readings[timestamp] = (score, graphData)
                 }
             }
+            print("saved readings: \(savedReadings)")
         }
     }
 
@@ -240,12 +246,12 @@ class SensorDataProcessor {
         let spineUpperAngle = relativeUpperEuler.z
         
         let spinalStraightnessAngle = abs(spineBaseAngle) + abs(spineUpperAngle)
-        print("spinalStraightnessAngle: \(spinalStraightnessAngle)")
+//        print("spinalStraightnessAngle: \(spinalStraightnessAngle)")
         return spinalStraightnessAngle
     }
 
     func calculateHunchAngle(bones: [String: simd_quatf]) -> Float {
-        print("bones:\(bones)")
+//        print("bones:\(bones)")
         guard let spineBaseQuat = bones["LowerBack"],
               let spineMidQuat = bones["MidBack"],
               let spineUpperQuat = bones["UpperBack"] else {
@@ -292,7 +298,6 @@ class SensorDataProcessor {
     func calculatePostureScore(bones: [String: simd_quatf]) -> (score: Float, graphData: [Float])? {
         let spinalStraightnessAngle = calculateSpinalStraightness(bones: bones)
         let hunchAngle = calculateHunchAngle(bones: bones)
-        print("hunchhhh: \(hunchAngle)")
         let shoulderBalanceAngle = calculateShoulderBalance(bones: bones)
         
         if spinalStraightnessAngle == -1 || hunchAngle == -1 || shoulderBalanceAngle == -1 {
@@ -300,9 +305,9 @@ class SensorDataProcessor {
             return nil
         }
 
-        let normalizedSpinalStraightness = normalizeDeviation(spinalStraightnessAngle, idealAngle: idealSpinalStraightnessAngle, maxDeviation: ((25.0 * .pi) / 180))
-        let normalizedHunch = normalizeDeviation(hunchAngle, idealAngle: idealHunchAngle, maxDeviation: ((25.0 * .pi) / 180))
-        let normalizedShoulderBalance = normalizeDeviation(shoulderBalanceAngle, idealAngle: idealShoulderBalanceAngle, maxDeviation: ((25.0 * .pi) / 180))
+        let normalizedSpinalStraightness =  1 - (normalizeDeviation(spinalStraightnessAngle, idealAngle: idealSpinalStraightnessAngle, maxDeviation: ((25.0 * .pi) / 180)))
+        let normalizedHunch = 1 - (normalizeDeviation(hunchAngle, idealAngle: idealHunchAngle, maxDeviation: ((25.0 * .pi) / 180)))
+        let normalizedShoulderBalance = 1 - (normalizeDeviation(shoulderBalanceAngle, idealAngle: idealShoulderBalanceAngle, maxDeviation: ((25.0 * .pi) / 180)))
         
         let spinalStraightnessWeight: Float = 0.2
         let hunchWeight: Float = 0.4
