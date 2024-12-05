@@ -11,11 +11,14 @@ import simd
 import CoreBluetooth
 import SceneKit
 
+
 struct ConfigureDeviceTab: View {
-    @StateObject private var bleManager = BLEManager()  // Use the existing BLEManager
+    @EnvironmentObject var bleManager: BLEManager  // Use the existing BLEManager
     @State private var showErrorAlert = false
     @Binding var showHeader: Bool
     @State private var orientationData: [String: simd_quatf] = [:]  // Dictionary to store quaternions
+    
+    var sensorDataProcessor = SensorDataProcessor()  // Use the existing SensorDataProcessor
     
     let vestConfigInfo = "Follow the steps to sync the Posture Vest to you app."
     let instructions = "1. Ensure your device is on and connected to the PostureBest app via bluetooth. \n2. Stand with your feet hip-width apart and toes pointing forward. \n3. Straighten back, neck and align shoulders to desired position. \n4. Hold position and press the configure button."
@@ -57,9 +60,14 @@ struct ConfigureDeviceTab: View {
         VStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, content: {
             Button("Configure") {
                 // Check if the device is connected
-                if let connectedPeripheral = bleManager.cbPeripheral {
-                    // TODO: Add in code to save ideal orientation data
-                } else {
+                if let _ = bleManager.cbPeripheral {
+                        showErrorAlert = false
+                                    
+                        // After mapping the sensor data, capture the ideal orientation
+
+                        sensorDataProcessor.captureIdealOrientationData(from: sensorDataProcessor)
+                        }
+                else {
                     showErrorAlert = true
                 }
             }.buttonStyle(.bordered)

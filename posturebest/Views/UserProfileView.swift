@@ -13,6 +13,7 @@ struct UserProfileView: View {
     // add device name
     
     @State private var showHeader = true
+    @StateObject private var bleManager = BLEManager()
     var body: some View {
         VStack {
         if (showHeader) {
@@ -26,7 +27,7 @@ struct UserProfileView: View {
                         .fill()
                         .frame(width: 60, height: 60)
                     
-                    Text("username")
+                    Text("Demo")
                         .font(.title3)
                 }
                 .foregroundStyle(Color(hex: "#374663"))

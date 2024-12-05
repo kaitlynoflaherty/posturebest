@@ -19,6 +19,7 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
     @Published var periperals = [Peripheral]() // stores discovered periphs
     @Published var connectedPeripheralUUID: UUID?
     var cbPeripheral: CBPeripheral?
+    @Published var characteristic: CBCharacteristic?
     
     override init() {
         super.init()
@@ -72,6 +73,20 @@ class BLEManager: NSObject, ObservableObject, CBCentralManagerDelegate, CBPeriph
         cbPeripheral = cbPeripheralTemp
         
         myCentral.connect(cbPeripheral!, options: nil)
+    }
+    
+    func disconnect() {
+        // Ensure a peripheral is connected before trying to disconnect
+        guard let peripheral = cbPeripheral else {
+            print("No peripheral is currently connected.")
+            return
+        }
+
+        // Cancel the connection to the peripheral
+        myCentral.cancelPeripheralConnection(peripheral)
+        print("Disconnected from peripheral with identifier: \(peripheral.identifier)")
+        connectedPeripheralUUID = nil
+
     }
     
     // Delegate method for when peripheral is connected
