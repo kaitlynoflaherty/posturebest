@@ -17,7 +17,6 @@ struct UserProfileView: View {
     @State private var postureScore = score
     @State private var timer: Timer?
     
-    @State private var showHeader = true
     @StateObject private var bleManager = BLEManager()
     let minScoreThreshold: Float = 0.5
     var deviceName = "PTSRBEST"
