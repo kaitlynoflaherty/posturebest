@@ -81,17 +81,23 @@ struct Model3DView: UIViewRepresentable {
             modelHelper.setReferenceOrientation(boneName: "Shoulder-Right", orientation: shoulderRightNode!.simdWorldOrientation)
             modelHelper.setReferenceOrientation(boneName: "Shoulder-Left", orientation: shoulderLeftNode!.simdWorldOrientation)
             
-//            print("shoulder right orientation\(shoulderLeftNode!.simdOrientation)")
+            // math for left shoulder orientation adjustments
+            print("midback orientation: \(upperBackNode!.simdOrientation)")
+            print("lower back to mid back: \(upperBackNode!.simdWorldOrientation * midBackNode!.simdWorldOrientation.conjugate)")
+            print("well, what gets hyou from this to that: \(upperBackNode!.simdOrientation * (upperBackNode!.simdWorldOrientation * midBackNode!.simdWorldOrientation.conjugate).conjugate)")
+            let left = shoulderLeftNode!.simdWorldOrientation
+            let upper = upperBackNode!.simdWorldOrientation
             
-//            let two = shoulderLeftNode!.simdWorldOrientation * (upperBackNode?.simdWorldOrientation.conjugate)!
-//            print("after math: \(two)")
+            let swappedLeftShoulder = simd_quatf(ix: left.imag.y, iy: -left.imag.z, iz: -left.imag.x, r: left.real)
+            let swappedUpper = simd_quatf(ix: upper.imag.y, iy: -upper.imag.z, iz: -upper.imag.x, r: upper.real)
             
-//            let newTwo = simd_quatf(ix: two.imag.x, iy: two.imag.y, iz: two.imag.z, r: two.real)
-//            let three = shoulderLeftNode!.simdOrientation * newTwo.conjugate
-//            print("after math three: \(three)")
+            let math = swappedLeftShoulder * (swappedUpper.conjugate)
+            print("after math: \(math)")
             
-//            shoulderLeftNode!.simdOrientation = simd_quatf(ix: 0.707, iy: 0, iz: 0, r: 0.707) * shoulderLeftNode!.simdOrientation
+            let final = shoulderLeftNode!.simdOrientation * math.conjugate
             
+            print("final\(final)")
+
             modelHelper.setMidBackNode(node: midBackNode!)
             modelHelper.setUpperBackNode(node: upperBackNode!)
             modelHelper.setShoulderRightNode(node: shoulderRightNode!)

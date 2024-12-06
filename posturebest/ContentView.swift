@@ -9,6 +9,8 @@ import CoreData
 
 struct ContentView: View {
     @StateObject private var bleManager = BLEManager() // StateObject to initialize BLEManager
+    @State private var showAlert = false
+
     var body: some View {
         TabView {
             HomeView()
@@ -21,20 +23,28 @@ struct ContentView: View {
             MetricsView(deviceName: "Demo")
                 .environmentObject(bleManager)
                 .tabItem {
-                    Label("Configurations", systemImage: "gear")
+                    Label("Metrics", systemImage: "ruler")
                 }
 
-            UserProfileView()
+            UserProfileView(showAlert: $showAlert)
                 .environmentObject(bleManager)
                 .tabItem {
-                    Label("Profile", systemImage: "person")
+                    Label("Settings", systemImage: "gear")
                 }
+        }
+        // Show the alert at the root level (ContentView)
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Time to Fix Your Posture!"),
+                message: Text("You have had poor posture for the past 30 minutes."),
+                dismissButton: .default(Text("OK"))
+            )
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
