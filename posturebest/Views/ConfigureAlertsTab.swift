@@ -27,17 +27,25 @@ func generateChartData() -> [Date: (overallScore: Double, shoulderScore: Double,
         // Calculate the week offset from the current date (0 is the most recent week)
         let weekOffset = (26 - i) / 7  // This makes weekOffset higher for the most recent week
         
-        // Apply a gradual increase each week (different growth rates for each score)
-        let weekImprovementOverall = weeklyImprovementOverall * Double(weekOffset)  // Overall score growth
-        let weekImprovementShoulder = weeklyImprovementShoulder * Double(weekOffset)  // Shoulder score growth
-        let weekImprovementBack = weeklyImprovementBack * Double(weekOffset)  // Back score growth
-        let weekImprovementSpinal = weeklyImprovementSpinal * Double(weekOffset)  // Spinal straightness growth
-        
-        // Update base scores with the weekly improvement for each score type
-        baseOverallScore = 70.0 + weekImprovementOverall
-        baseShoulderScore = 70.0 + weekImprovementShoulder
-        baseBackScore = 70.0 + weekImprovementBack
-        baseSpinalStraightness = 70.0 + weekImprovementSpinal
+        // We want the first week to be at the base scores, no improvement yet
+        if weekOffset == 0 {
+            baseOverallScore = 70.0
+            baseShoulderScore = 70.0
+            baseBackScore = 70.0
+            baseSpinalStraightness = 70.0
+        } else {
+            // Apply a gradual increase each week (different growth rates for each score)
+            let weekImprovementOverall = weeklyImprovementOverall * Double(weekOffset)  // Overall score growth
+            let weekImprovementShoulder = weeklyImprovementShoulder * Double(weekOffset)  // Shoulder score growth
+            let weekImprovementBack = weeklyImprovementBack * Double(weekOffset)  // Back score growth
+            let weekImprovementSpinal = weeklyImprovementSpinal * Double(weekOffset)  // Spinal straightness growth
+            
+            // Update base scores with the weekly improvement for each score type
+            baseOverallScore = 70.0 + weekImprovementOverall
+            baseShoulderScore = 70.0 + weekImprovementShoulder
+            baseBackScore = 70.0 + weekImprovementBack
+            baseSpinalStraightness = 70.0 + weekImprovementSpinal
+        }
         
         // Get the weekday for the current day
         let calendar = Calendar.current
@@ -143,6 +151,7 @@ func generateChartData() -> [Date: (overallScore: Double, shoulderScore: Double,
     
     return generatedData
 }
+
 // Hardcoded hourly data from 8 AM to 8 PM
         let hourlyData: [Date: (overallScore: Double, shoulderScore: Double, backScore: Double, spinalStraightness: Double)] = [
             // 8 AM
