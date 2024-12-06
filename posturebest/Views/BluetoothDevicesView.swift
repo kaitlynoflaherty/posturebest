@@ -25,7 +25,7 @@ func rssiColor(for rssi: Int?) -> Color {
 }
 
 struct BluetoothDevicesView: View {
-    @StateObject var bleManager = BLEManager()
+    @EnvironmentObject var bleManager: BLEManager
     @Binding var showHeader: Bool
 
     var body: some View {
@@ -85,18 +85,12 @@ struct BluetoothDevicesView: View {
             
             VStack(spacing: 25) {
                 Button(action: {
-                    bleManager.startScanning()
+                    bleManager.disconnect()
                 }) {
-                    Text("Start scanning")
+                    Text("Disconnect")
                         .buttonStyle(BorderedProminentButtonStyle())
                 }
                 
-                Button(action: {
-                    bleManager.stopScanning()
-                }) {
-                    Text("Stop scanning")
-                        .buttonStyle(BorderedProminentButtonStyle())
-                }
             }.padding()
             
             Spacer()

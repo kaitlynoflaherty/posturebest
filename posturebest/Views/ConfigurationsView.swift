@@ -4,6 +4,7 @@ struct MetricsView: View {
     let deviceName: String
     
     var body: some View {
+        @EnvironmentObject var bleManager: BLEManager
         VStack {
             // Header Section
             VStack {

@@ -10,6 +10,8 @@ import simd
 import CoreBluetooth
 import SceneKit
 
+var isConfigured: Bool = false
+
 class SensorDataProcessor {
     var orientationDictionary: [String: simd_quatf] = [:]
     var orientationAdjustments: [String: simd_quatf] = [:]
@@ -19,6 +21,7 @@ class SensorDataProcessor {
     var readings: [Date: (score: Float, graphData: [Float])] = [:]
 
     let boneNames = ["LowerBack", "MidBack", "UpperBack", "Shoulder-Right", "Shoulder-Left"]
+    var idealOrientations: [String: simd_quatf] = [:]
     
     func quatToEuler(_ quat: simd_quatf) -> SIMD3<Float> {
         let n = SCNNode()
@@ -65,6 +68,7 @@ class SensorDataProcessor {
     }
     
     func MapSensorDataToBones(from characteristic: CBCharacteristic) {
+        print(isConfigured)
         let numSensors = 5
         let totalBytes = 32 * numSensors
         let totalDoubles = 4 * numSensors
@@ -106,8 +110,8 @@ class SensorDataProcessor {
                                                      iz: intermediate.imag.z,
                                                      r: intermediate.real)
                     
-                    print(boneNames[index])
-                    print(updatedRotations)
+                    //print(boneNames[index])
+                    //print(updatedRotations)
                     
                     let shoulderNormalizer = index == 3 ? simd_quatf(real: -0.12369983, imag: SIMD3<Float>(-0.4146454, -0.68663114, 0.5842135)) : simd_quatf(real: 0.12369995, imag: SIMD3<Float>(0.41464525, -0.6866312, 0.58421344))
                     actualRotations[boneNames[index]] = shoulderNormalizer * updatedRotations
@@ -115,15 +119,20 @@ class SensorDataProcessor {
             }
         }
         sensorsCalibrated = true
+        if isConfigured == true {
+            print("HEYYYYY")
+            idealOrientations = orientationDictionary
+            isConfigured = false
+            saveIdealOrientationToUserDefaults(idealOrientations)
+        }
+        print("orientationDictionary\(orientationDictionary)")
     }
 
     func traverseNodes() {
         var actions: [SCNAction] = []
         takeReading(bones: orientationDictionary)
-        
         if let UpperBackNode = modelHelper.getUpperNode() {
             let angle = quatToEuler(actualRotations[UpperBackNode.name!]!)
-            
             let animation = SCNAction.rotateTo(x: CGFloat(angle.x), y: CGFloat(angle.y), z: CGFloat(angle.z), duration: 0.5)
             let backBend = SCNAction.customAction(duration: 0.5) {
                 (node, elapsedTime) in UpperBackNode.runAction(animation)}
@@ -150,7 +159,7 @@ class SensorDataProcessor {
                 (node, elapsedTime) in rightShoulderNode.runAction(animation)}
             actions.append(backBend)
         } else {
-            print("No Shoulder.Right node found.")
+            print("No Shoulder. Right node found.")
         }
         
         if let leftShoulderNode = modelHelper.getShoulderLeftNode() {
@@ -160,7 +169,7 @@ class SensorDataProcessor {
                 (node, elapsedTime) in leftShoulderNode.runAction(animation)}
             actions.append(backBend)
         } else {
-            print("No Shoulder.Left node found.")
+            print("No Shoulder. Left node found.")
         }
         
         let rootNode = modelHelper.getRootNode()
@@ -176,7 +185,7 @@ class SensorDataProcessor {
         //Store readings in UserDefaults
         saveReadingsToUserDefaults()
         
-        print("Reading at \(timestamp): Score = \(result!.score), Graph Data = \(result!.graphData)")
+        // print("Reading at \(timestamp): Score = \(result!.score), Graph Data = \(result!.graphData)")
     }
     
     func saveReadingsToUserDefaults() {
@@ -188,7 +197,7 @@ class SensorDataProcessor {
             ]
         }
         
-        print("readingsArray: \(readingsArray)")
+        // print("readingsArray: \(readingsArray)")
         
         UserDefaults.standard.set(readingsArray, forKey: "postureReadings")
     }
@@ -204,7 +213,7 @@ class SensorDataProcessor {
                     readings[timestamp] = (score, graphData)
                 }
             }
-            print("saved readings: \(savedReadings)")
+           // print("saved readings: \(savedReadings)")
         }
     }
 
@@ -320,5 +329,23 @@ class SensorDataProcessor {
         let graphData: [Float] = [normalizedSpinalStraightness, normalizedHunch, normalizedShoulderBalance]
         
         return (finalScore, graphData)
+    }
+    func captureIdealOrientationData(from sensorDataProcessor: SensorDataProcessor) {
+        // Create a dictionary to store the ideal orientation (as quaternions)
+        isConfigured = true
+    }
+
+    // The function that saves the ideal orientation data
+    func saveIdealOrientationToUserDefaults(_ idealOrientations: [String: simd_quatf]) {
+        // Convert the quaternions to a format that can be saved (e.g., as arrays of floats)
+        let savedData = idealOrientations.map { (boneName, quat) -> [String: Any] in
+            return [
+                "boneName": boneName,
+                "quaternion": [quat.real, quat.imag.x, quat.imag.y, quat.imag.z]
+            ]
+        }
+        
+        // Store the data in UserDefaults
+        UserDefaults.standard.set(savedData, forKey: "idealOrientations")
     }
 }
