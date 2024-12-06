@@ -14,6 +14,7 @@ import SceneKit
 struct ConfigureDeviceTab: View {
     @StateObject private var bleManager = BLEManager()  // Use the existing BLEManager
     @State private var showErrorAlert = false
+    @Binding var showHeader: Bool
     @State private var orientationData: [String: simd_quatf] = [:]  // Dictionary to store quaternions
     
     let vestConfigInfo = "Follow the steps to sync the Posture Vest to you app."
@@ -28,6 +29,12 @@ struct ConfigureDeviceTab: View {
                     .font(.headline)
                     .foregroundStyle(Color(hex: "#374663"))
                     .padding(.bottom, 10)
+                    .onAppear {
+                                    showHeader = false
+                                }
+                                .onDisappear {
+                                    showHeader = true
+                                }
                 
                 InfoButtonView(message: vestConfigInfo, buttonSize: 15, title: "Vest Configuration", color: Color(.blue)).offset(x: -20, y: -5)
             }
@@ -68,8 +75,9 @@ struct ConfigureDeviceTab: View {
     
     
     struct ConfigureDeviceTab_Previews: PreviewProvider {
+        @State static var showHeader = false
         static var previews: some View {
-            ConfigureDeviceTab()
+            ConfigureDeviceTab(showHeader: $showHeader)
         }
     }
     
