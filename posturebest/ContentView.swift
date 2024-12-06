@@ -15,7 +15,7 @@ struct ContentView: View {
                     Label("Home", systemImage: "house")
                 }
 
-            MetricsView(deviceName: "placeholder")
+            MetricsView(deviceName: "Demo")
                 .tabItem {
                     Label("Configurations", systemImage: "gear")
                 }
