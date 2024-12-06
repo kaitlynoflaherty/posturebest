@@ -14,13 +14,13 @@ func rssiColor(for rssi: Int?) -> Color {
 
     switch rssiValue {
     case let x where x >= -70:
-        return .green // Good signal
+        return .green
     case let x where x >= -80:
-        return .yellow // Medium signal
+        return .yellow
     case let x where x < -80:
-        return .red // Bad signal
+        return .red
     default:
-        return .gray // Fallback
+        return .gray
     }
 }
 
